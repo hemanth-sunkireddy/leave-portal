@@ -4,7 +4,7 @@ import Breadcrumb from "@/components/Common/Breadcrumb";
 
 import { Metadata } from "next";
 import run from "@/utilities/mongo";
-import { useEffect } from "react";
+import { response } from "@/utilities/mongo";
 
 export const metadata: Metadata = {
   title: "About Page | Free Next.js Template for Startup and SaaS",
@@ -29,6 +29,11 @@ const AboutPage = () => {
       />
       {/* <AboutSectionOne /> */}
       {/* <AboutSectionTwo /> */}
+      {response === "SUCCESS" ? (
+        <p>MongoDB operation was successful!</p>
+      ) : (
+        <p>Error occurred:</p>
+      )}
     </>
   );
 };
