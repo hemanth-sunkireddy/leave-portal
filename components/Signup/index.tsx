@@ -9,6 +9,8 @@ const SignupForm = () => {
   const [name, setName] = useState('');
   const [pin, setPin] = useState('');
   const [password, setPassword] = useState('');
+  const [errorText, setErrorText] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Function to handle dropdown change
   const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -16,40 +18,75 @@ const SignupForm = () => {
   };
 
   const handleSubmit = async (event) => {
+    setErrorText(null);
     event.preventDefault();
 
-    // Prepare data object
-    const formData = {
-      Name: name,
-      Pin: pin,
-      Password: password,
-      UserType: selectedUserType
-    };
-    console.log(formData);
-    console.log("Name: ", name);
-    try {
-      // Example POST request using fetch
-      const response = await fetch('https://leave-portal-backend.onrender.com/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any other headers needed
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      userpin = pin;
+    setIsLoading(true);
+    if (name === '') {
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Fill your Name");
+      }, 1000);
+     
+    }
+    else if (pin === '') {
       
-      location.href = '/dashboard';
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Fill your Pin");
+      }, 1000);
+    }
+    else if (password === '') {
+      
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Fill your Password");
+      }, 1000);
+    }
+    else if (selectedUserType === '' || selectedUserType === 'Select') {
+     
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Select User Type");
+      }, 1000);
+    }
+    else {
+      // Prepare data object
+      const formData = {
+        Name: name,
+        Pin: pin,
+        Password: password,
+        UserType: selectedUserType
+      };
+      console.log(formData);
+      console.log("Name: ", name);
+      try {
+        // Example POST request using fetch
+        const response = await fetch('https://leave-portal-backend.onrender.com/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Add any other headers needed
+          },
+          body: JSON.stringify(formData),
+        });
 
-      // Handle successful signup (e.g., redirect, show success message)
-      console.log('Signup successful');
-    } catch (error) {
-      console.error('Error signing up:', error.message);
-      // Handle error (e.g., show error message to user)
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        userpin = pin;
+
+        location.href = '/dashboard';
+
+        // Handle successful signup (e.g., redirect, show success message)
+        console.log('Signup successful');
+      } catch (error) {
+        console.error('Error signing up:', error.message);
+        setTimeout(() => {
+          setIsLoading(false);
+          setErrorText(error.message.toString());
+        }, 1000);
+      }
     }
   };
 
@@ -149,7 +186,14 @@ const SignupForm = () => {
 
                 <div className="mb-6">
                   <button type="submit" className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
-                    Sign up
+                    {isLoading ? (
+                      <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.004 8.004 0 014.478 4.478L2.586 6.586M20 12c0-4.418-3.582-8-8-8v4c2.237 0 4.287.913 5.758 2.394L15.172 11M12 20a8 8 0 008-8h-4c-2.237 0-4.287-.913-5.758-2.394L8.828 13"></path>
+                      </svg>
+                    ) : (
+                      'Sign up'
+                    )}
                   </button>
                 </div>
               </form>
@@ -159,6 +203,11 @@ const SignupForm = () => {
                   Sign in
                 </Link>
               </p>
+              {errorText && (
+                <p className="mt-2 text-sm text-red-600 font-bold text-center">
+                  {errorText}
+                </p>
+              )}
             </div>
           </div>
         </div>
