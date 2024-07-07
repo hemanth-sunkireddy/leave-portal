@@ -1,4 +1,5 @@
-/** @type {import('next').NextConfig} */
+require('dotenv').config();
+
 const nextConfig = {
   images: {
     domains: ["localhost"],
@@ -9,6 +10,9 @@ const nextConfig = {
         port: "",
       },
     ],
+  },
+  env: {
+    MONGODB_URI: process.env.MONGODB_URI,
   },
 };
 
