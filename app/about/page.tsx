@@ -1,10 +1,6 @@
-import AboutSectionOne from "@/components/About/AboutSectionOne";
-import AboutSectionTwo from "@/components/About/AboutSectionTwo";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 
 import { Metadata } from "next";
-import run from "@/utilities/mongo";
-import { response } from "@/utilities/mongo";
 
 export const metadata: Metadata = {
   title: "About Page | Free Next.js Template for Startup and SaaS",
@@ -12,24 +8,9 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.MONGO_URI;
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
 
 const AboutPage = () => {
-  const handleMongoDBOperation = async () => {
-    await run(); // Wait for MongoDB operation to complete
-  };
-
-  // Call the MongoDB operation function
-  handleMongoDBOperation();
+  
   return (
     <>
       <Breadcrumb
@@ -43,13 +24,6 @@ const AboutPage = () => {
         This Automated System will provide ease to all the actors – students, mentors, hostel authorities, 
         and security services in regard to leaving/outpassing sanctions and will ultimately eliminate the paperwork."
       />
-      {/* <AboutSectionOne /> */}
-      {/* <AboutSectionTwo /> */}
-      {response === "SUCCESS" ? (
-        <p>MongoDB operation was successful!</p>
-      ) : (
-        <p>Error occurred: {response}</p>
-      )}
     </>
   );
 };
