@@ -9,7 +9,7 @@ const client = new MongoClient(uri, {
   }
 });
 
-let response = "ERROR";
+let response = "";
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -32,7 +32,7 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   }
   catch (error) {
-    console.log(error.message); 
+    console.log(error.message.toString());
     response = error.message.toString();
   } finally {
     // Ensures that the client will close when you finish/error
