@@ -33,6 +33,7 @@ async function run() {
   }
   catch (error) {
     console.log(error);
+    response = error.message;
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
