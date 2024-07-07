@@ -14,7 +14,7 @@ const featureData: Features[] = [
     title: "View Past Leave Requests",
     paragraph:
       "Applied for leave? Access and check all your past leave requests status here.",
-    image: "/images/dashboard/past-leave.png",
+    image: "/images/dashboard/past-leave.jpg",
     detail: "View Past Requests"
   },
 ];

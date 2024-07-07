@@ -7,7 +7,7 @@ const SingleFeature = ({ feature }: { feature: Features }) => {
   return (
     <>
       <div
-        className="wow fadeInUp hover:shadow-two dark:hover:shadow-gray-dark group relative overflow-hidden rounded-sm bg-white shadow-one duration-300 dark:bg-dark"
+        className="wow m-5 fadeInUp hover:shadow-two dark:hover:shadow-gray-dark group relative overflow-hidden rounded-sm bg-neutral-300 shadow-one duration-300 dark:bg-dark"
         data-wow-delay=".1s"
       >
         <Link
@@ -36,6 +36,7 @@ const SingleFeature = ({ feature }: { feature: Features }) => {
           </div>
         </div>
       </div>
+      
     </>
   );
 };

@@ -20,7 +20,7 @@ const Dashboard = () => {
 
       <section className="pb-[120px] pt-[120px]">
         <div className="container">
-          <div className="-mx-4 flex flex-wrap justify-center">
+          <div className="-mx-4 flex flex-wrap justify-center bg-slate-100 dark:bg-purple-300">
             {featureData.map((feature) => (
               <div
                 key={feature.id}
