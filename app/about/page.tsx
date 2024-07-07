@@ -32,7 +32,7 @@ const AboutPage = () => {
       {response === "SUCCESS" ? (
         <p>MongoDB operation was successful!</p>
       ) : (
-        <p>Error occurred:</p>
+        <p>Error occurred: {response}</p>
       )}
     </>
   );
