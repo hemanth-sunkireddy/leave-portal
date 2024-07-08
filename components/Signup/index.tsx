@@ -12,7 +12,6 @@ const SignupForm = () => {
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Function to handle dropdown change
   const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserType(event.target.value);
   };
@@ -51,29 +50,21 @@ const SignupForm = () => {
       }, 1000);
     }
     else {
-      // Prepare data object
       const formData = {
         Name: name,
         Pin: pin,
         Password: password,
         UserType: selectedUserType
       };
-      console.log(formData);
-      console.log("Name: ", name);
       try {
-        // Example POST request using fetch
+
         const response = await fetch('https://leave-portal-backend.onrender.com/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // Add any other headers needed
           },
           body: JSON.stringify(formData),
         });
-        console.log(response);
-        // if (!response.ok) {
-        //   throw new Error('Network response was not ok');
-        // }
         if (response.status === 500) {
           setErrorText("Internal Server Error.");
         }
@@ -82,15 +73,17 @@ const SignupForm = () => {
         }
         else if (response.status === 200) {
           userpin = pin;
-          setIsLoading(false);
-          location.href = '/dashboard';
+          setErrorText("Registration Success, Redirecting to Dashboard...");
+          setTimeout(() => {
+            setIsLoading(false);
+            location.href = '/dashboard';
+          }, 1000);
         }
-        else{
+        else {
           setErrorText(response.statusText.toString());
         }
         setIsLoading(false);
       } catch (error) {
-        console.error('Error signing up:', error.message);
         setTimeout(() => {
           setIsLoading(false);
           setErrorText(error.message.toString());
