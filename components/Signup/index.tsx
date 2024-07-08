@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-let userpin = "";
-
 const SignupForm = () => {
   const [selectedUserType, setSelectedUserType] = useState('');
   const [name, setName] = useState('');
@@ -72,11 +70,10 @@ const SignupForm = () => {
           setErrorText("User Already Exists, Please Login");
         }
         else if (response.status === 200) {
-          userpin = pin;
-          setErrorText("Registration Success, Redirecting to Dashboard...");
+          setErrorText("Registration Success, Redirecting to Sign In page...");
           setTimeout(() => {
             setIsLoading(false);
-            location.href = '/dashboard';
+            location.href = '/signin';
           }, 1000);
         }
         else {
@@ -274,5 +271,4 @@ const SignupForm = () => {
     </section>
   );
 };
-export { userpin };
 export default SignupForm;

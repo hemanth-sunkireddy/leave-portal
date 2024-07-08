@@ -1,6 +1,7 @@
 import SingleFeature from "@/components/Dashboard/singleFeature";
 import featureData from "@/components/Dashboard/studentFeatures";
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import { userpin } from "@/components/SignIn";
 
 import { Metadata } from "next";
 
@@ -15,7 +16,7 @@ const Dashboard = () => {
     <>
       <Breadcrumb
         pageName="Dashboard"
-        description="Welcome student, Click below to apply leave or see past requests."
+        description="Welcome User, Click below to apply leave or see past requests."
       />
 
       <section className="pb-[120px] pt-[120px]">

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
+let userpin = "";
 
 const SignInForm = () => {
     const [pin, setPin] = useState('');
@@ -57,6 +58,7 @@ const SignInForm = () => {
                     setErrorText("User Does Not Exist, Please Sign Up");
                 }
                 else if (response.status === 200) {
+                    userpin = pin;
                     setErrorText("User Found, Redirecting to Dashboard...");
                     setTimeout(() => {
                         setIsLoading(false);
@@ -214,4 +216,5 @@ const SignInForm = () => {
         </section>
     );
 };
+export { userpin };
 export default SignInForm;
