@@ -27,24 +27,24 @@ const SignupForm = () => {
         setIsLoading(false);
         setErrorText("Please Fill your Name");
       }, 1000);
-     
+
     }
     else if (pin === '') {
-      
+
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Fill your Pin");
       }, 1000);
     }
     else if (password === '') {
-      
+
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Fill your Password");
       }, 1000);
     }
     else if (selectedUserType === '' || selectedUserType === 'Select') {
-     
+
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Select User Type");
@@ -70,16 +70,25 @@ const SignupForm = () => {
           },
           body: JSON.stringify(formData),
         });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        console.log(response);
+        // if (!response.ok) {
+        //   throw new Error('Network response was not ok');
+        // }
+        if (response.status === 500) {
+          setErrorText("Internal Server Error.");
         }
-        userpin = pin;
-
-        location.href = '/dashboard';
-
-        // Handle successful signup (e.g., redirect, show success message)
-        console.log('Signup successful');
+        else if (response.status === 400) {
+          setErrorText("User Already Exists, Please Login");
+        }
+        else if (response.status === 200) {
+          userpin = pin;
+          setIsLoading(false);
+          location.href = '/dashboard';
+        }
+        else{
+          setErrorText(response.statusText.toString());
+        }
+        setIsLoading(false);
       } catch (error) {
         console.error('Error signing up:', error.message);
         setTimeout(() => {
