@@ -1,63 +1,45 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { userpin } from '../SignIn';
 
-const SignupForm = () => {
-  const [selectedUserType, setSelectedUserType] = useState('');
-  const [name, setName] = useState('');
-  const [pin, setPin] = useState('');
-  const [password, setPassword] = useState('');
+const ApplyLeaveForm = () => {
+  // const [selectedUserType, setSelectedUserType] = useState('');
+  const [reason, setReason] = useState('');
+  const [parentMobile, setParentMobile] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserType(event.target.value);
-  };
+  
 
   const handleSubmit = async (event) => {
     setErrorText(null);
     event.preventDefault();
 
     setIsLoading(true);
-    if (name === '') {
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Fill your Name");
-      }, 1000);
-
-    }
-    else if (pin === '') {
+    if (parentMobile === '') {
 
       setTimeout(() => {
         setIsLoading(false);
-        setErrorText("Please Fill your Pin");
+        setErrorText("Please Fill your Parent Mobile Number");
       }, 1000);
     }
-    else if (password === '') {
+    else if (reason === '') {
 
       setTimeout(() => {
         setIsLoading(false);
-        setErrorText("Please Fill your Password");
-      }, 1000);
-    }
-    else if (selectedUserType === '' || selectedUserType === 'Select') {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Select User Type");
+        setErrorText("Please Fill Reason For Leave");
       }, 1000);
     }
     else {
       const formData = {
-        Name: name,
-        Pin: pin,
-        Password: password,
-        UserType: selectedUserType
+        Pin: userpin,
+        Reason: reason, 
+        ParentMobile: parentMobile
       };
-
       try {
 
-        const response = await fetch('https://leave-portal-backend.onrender.com/signup', {
+        const response = await fetch('https://leave-portal-backend.onrender.com/new-leave', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -68,14 +50,11 @@ const SignupForm = () => {
         if (response.status === 500) {
           setErrorText("Internal Server Error.");
         }
-        else if (response.status === 400) {
-          setErrorText("User Already Exists, Please Login");
-        }
         else if (response.status === 200) {
-          setErrorText("Registration Success, Redirecting to Sign In page...");
+          setErrorText("Applied Leave Successfully, redirecting to My Leave Requests...");
           setTimeout(() => {
             setIsLoading(false);
-            location.href = '/signin';
+            location.href = '/my-leaves';
           }, 1000);
         }
         else {
@@ -99,33 +78,33 @@ const SignupForm = () => {
           <div className="w-full px-4">
             <div className="shadow-three mx-auto max-w-[500px] rounded bg-white px-6 py-10 dark:bg-dark sm:p-[60px]">
               <h3 className="mb-3 text-center text-2xl font-bold text-black dark:text-white sm:text-3xl">
-                Create your account
+                Leave Application Form
               </h3>
-              <p className="mb-11 text-center text-base font-medium text-body-color">
+              {/* <p className="mb-11 text-center text-base font-medium text-body-color">
                 Welcome
-              </p>
+              </p> */}
 
               <div className="mb-8 flex items-center justify-center">
                 <span className="hidden h-[1px] w-full max-w-[60px] bg-body-color/50 sm:block"></span>
                 <p className="w-full px-5 text-center text-base font-medium text-body-color">
-                  Register with your Pin
+                  Fill the below details
                 </p>
                 <span className="hidden h-[1px] w-full max-w-[60px] bg-body-color/50 sm:block"></span>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="mb-8">
                   <label
-                    htmlFor="name"
+                    htmlFor="reason"
                     className="mb-3 block text-sm text-dark dark:text-white"
                   >
                     {" "}
-                    Full Name{" "}
+                    Reason For Leave{" "}
                   </label>
                   <input
                     type="text"
-                    name="name"
-                    placeholder="Enter your full name"
-                    onChange={(e) => setName(e.target.value)}
+                    name="reason"
+                    placeholder="Enter reason for leave"
+                    onChange={(e) => setReason(e.target.value)}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
@@ -135,33 +114,33 @@ const SignupForm = () => {
                     className="mb-3 block text-sm text-dark dark:text-white"
                   >
                     {" "}
-                    Pin Number{" "}
+                    Parent Mobile{" "}
                   </label>
                   <input
                     type="pin"
                     name="pin"
-                    placeholder="Enter your Pin Number"
-                    onChange={(e) => setPin(e.target.value)}
+                    placeholder="Enter your Parent Mobile Number"
+                    onChange={(e) => setParentMobile(e.target.value)}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                <div className="mb-8">
+                {/* <div className="mb-8">
                   <label
                     htmlFor="password"
                     className="mb-3 block text-sm text-dark dark:text-white"
                   >
                     {" "}
-                    Create Password{" "}
+                    Leave Start Date{" "}
                   </label>
                   <input
-                    type="password"
-                    name="password"
+                    type="date"
+                    name="date"
                     placeholder="Enter Password"
                     onChange={(e) => setPassword(e.target.value)}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
-                </div>
-                <div className="mb-8">
+                </div> */}
+                {/* <div className="mb-8">
                   <label htmlFor="userType" className="block text-sm text-dark dark:text-white mb-3">
                     Select User Type
                   </label>
@@ -183,7 +162,7 @@ const SignupForm = () => {
                       You selected: {selectedUserType}
                     </p>
                   )}
-                </div>
+                </div> */}
 
                 <div className="mb-6">
                   <button type="submit" className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
@@ -193,15 +172,15 @@ const SignupForm = () => {
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.004 8.004 0 014.478 4.478L2.586 6.586M20 12c0-4.418-3.582-8-8-8v4c2.237 0 4.287.913 5.758 2.394L15.172 11M12 20a8 8 0 008-8h-4c-2.237 0-4.287-.913-5.758-2.394L8.828 13"></path>
                       </svg>
                     ) : (
-                      'Sign up'
+                      'Submit Leave'
                     )}
                   </button>
                 </div>
               </form>
               <p className="text-center text-base font-medium text-body-color">
-                Already Registered?{" "}
-                <Link href="/signin" className="text-primary hover:underline">
-                  Sign in
+                Already Applied?{" "}
+                <Link href="/my-leaves" className="text-primary hover:underline">
+                  My Leave Requests
                 </Link>
               </p>
               {errorText && (
@@ -273,4 +252,4 @@ const SignupForm = () => {
     </section>
   );
 };
-export default SignupForm;
+export default ApplyLeaveForm;

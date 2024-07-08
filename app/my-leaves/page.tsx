@@ -1,5 +1,4 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import ApplyLeaveForm from "@/components/ApplyLeave";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,16 +7,15 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const ApplyLeavePage = () => {
+const MyLeavePage = () => {
   return (
     <>
       <Breadcrumb
-        pageName="Apply Leave"
-        description="Please Fill the below required details."
+        pageName="My Past Leave Requests"
+        description="Check your past leave request along with status of approved/rejected/applied. Will update this page soon."
       />
-      <ApplyLeaveForm />
     </>
   );
 };
 
-export default ApplyLeavePage;
+export default MyLeavePage;

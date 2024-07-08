@@ -7,7 +7,8 @@ const featureData: Features[] = [
     paragraph:
       "Apply for leave here. Submit your request with required details.",
     image: "/images/dashboard/apply-leave.png",
-    detail: "Apply New Leave"
+    detail: "Apply New Leave",
+    redirectLink: "apply-leave"
   },
   {
     id: 2,
@@ -15,7 +16,8 @@ const featureData: Features[] = [
     paragraph:
       "Applied for leave? Access and check all your past leave requests status here.",
     image: "/images/dashboard/past-leave.jpg",
-    detail: "View Past Requests"
+    detail: "View Past Requests",
+    redirectLink: "my-leaves"
   },
 ];
 export default featureData;

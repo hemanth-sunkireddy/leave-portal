@@ -6,4 +6,5 @@ export type Features = {
   paragraph: string;
   image: string;
   detail: string;
+  redirectLink: string;
 };
