@@ -1,8 +1,9 @@
+"use client";
 import { Features } from "@/types/dashboard";
 import Image from "next/image";
 import Link from "next/link";
-
 const SingleFeature = ({ feature }: { feature: Features }) => {
+
   const { title, image, paragraph, detail, redirectLink } = feature;
   return (
     <>
@@ -29,14 +30,14 @@ const SingleFeature = ({ feature }: { feature: Features }) => {
             {paragraph}
           </p>
           <div className="flex items-center">
-          <Link href={`${redirectLink}`}
+            <Link href={`${redirectLink}`}
               className="inline-block py-2 px-4 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-md transition duration-300">
-                {detail}
+              {detail}
             </Link>
           </div>
         </div>
       </div>
-      
+
     </>
   );
 };

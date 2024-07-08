@@ -1,18 +1,17 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { userpin } from '../SignIn';
 
-const ApplyLeaveForm = () => {
+const ApplyLeaveForm = ({userpin}) => {
   // const [selectedUserType, setSelectedUserType] = useState('');
   const [reason, setReason] = useState('');
   const [parentMobile, setParentMobile] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  
-
   const handleSubmit = async (event) => {
+    console.log("USER PIN: ", userpin);
+    
     setErrorText(null);
     event.preventDefault();
 
@@ -54,7 +53,7 @@ const ApplyLeaveForm = () => {
           setErrorText("Applied Leave Successfully, redirecting to My Leave Requests...");
           setTimeout(() => {
             setIsLoading(false);
-            location.href = '/my-leaves';
+            // location.href = '/my-leaves';
           }, 1000);
         }
         else {
@@ -124,22 +123,22 @@ const ApplyLeaveForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                {/* <div className="mb-8">
+                <div className="mb-8">
                   <label
-                    htmlFor="password"
+                    htmlFor="userpin"
                     className="mb-3 block text-sm text-dark dark:text-white"
                   >
                     {" "}
-                    Leave Start Date{" "}
+                    Your Pin{" "}
                   </label>
                   <input
-                    type="date"
-                    name="date"
-                    placeholder="Enter Password"
-                    onChange={(e) => setPassword(e.target.value)}
+                    type="text"
+                    name="userpin"
+                    value={userpin}
+                    disabled
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
-                </div> */}
+                </div>
                 {/* <div className="mb-8">
                   <label htmlFor="userType" className="block text-sm text-dark dark:text-white mb-3">
                     Select User Type

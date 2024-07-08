@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const SignupForm = () => {
@@ -69,6 +69,7 @@ const SignupForm = () => {
           setErrorText("Internal Server Error.");
         }
         else if (response.status === 400) {
+          console.log("HERE:");
           setErrorText("User Already Exists, Please Login");
         }
         else if (response.status === 200) {

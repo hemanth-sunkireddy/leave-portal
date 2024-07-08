@@ -1,7 +1,10 @@
 import SingleFeature from "./singleFeature";
 import featureData from "./studentFeatures";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Blog = () => {
+  
   return (
     <section
       id="blog"

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
-let userpin = "";
+
 
 const SignInForm = () => {
     const [pin, setPin] = useState('');
@@ -54,15 +54,17 @@ const SignInForm = () => {
                 if (response.status === 500) {
                     setErrorText("Internal Server Error.");
                 }
-                else if (response.status === 400) {
+                else if (response.status === 404) {
                     setErrorText("User Does Not Exist, Please Sign Up");
                 }
+                else if (response.status === 400) {
+                    setErrorText("Invalid Password");
+                }
                 else if (response.status === 200) {
-                    userpin = pin;
                     setErrorText("User Found, Redirecting to Dashboard...");
                     setTimeout(() => {
                         setIsLoading(false);
-                        location.href = '/dashboard';
+                        location.href = `/dashboard?userpin=${encodeURIComponent(pin)}`;
                     }, 1000);
                     
                 }
@@ -216,5 +218,4 @@ const SignInForm = () => {
         </section>
     );
 };
-export { userpin };
 export default SignInForm;

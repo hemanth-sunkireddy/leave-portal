@@ -1,7 +1,6 @@
 import SingleFeature from "@/components/Dashboard/singleFeature";
 import featureData from "@/components/Dashboard/studentFeatures";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import { userpin } from "@/components/SignIn";
 
 import { Metadata } from "next";
 
