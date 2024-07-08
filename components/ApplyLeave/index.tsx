@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-const ApplyLeaveForm = ({userpin}) => {
+const ApplyLeaveForm = () => {
   // const [selectedUserType, setSelectedUserType] = useState('');
   const [reason, setReason] = useState('');
   const [parentMobile, setParentMobile] = useState('');
@@ -10,7 +10,6 @@ const ApplyLeaveForm = ({userpin}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event) => {
-    console.log("USER PIN: ", userpin);
     
     setErrorText(null);
     event.preventDefault();
@@ -32,7 +31,7 @@ const ApplyLeaveForm = ({userpin}) => {
     }
     else {
       const formData = {
-        Pin: userpin,
+        // Pin: userpin,
         Reason: reason, 
         ParentMobile: parentMobile
       };
@@ -134,7 +133,7 @@ const ApplyLeaveForm = ({userpin}) => {
                   <input
                     type="text"
                     name="userpin"
-                    value={userpin}
+                    value={""}
                     disabled
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
