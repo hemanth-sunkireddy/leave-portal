@@ -54,6 +54,7 @@ const SignupForm = () => {
         Password: password,
         UserType: selectedUserType
       };
+      console.log("HI");
       try {
 
         const response = await fetch('https://leave-portal-backend.onrender.com/signup', {
@@ -63,6 +64,7 @@ const SignupForm = () => {
           },
           body: JSON.stringify(formData),
         });
+        console.log(response);
         if (response.status === 500) {
           setErrorText("Internal Server Error.");
         }
