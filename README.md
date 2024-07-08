@@ -1,2 +1,5 @@
 # LEAVE PORTAL FRONTEND 
-1. To Run : `npm run dev`
+
+Built with Next.js 
+
+Docs: https://nextjs.org/
