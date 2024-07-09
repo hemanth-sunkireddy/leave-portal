@@ -12,7 +12,7 @@ const MyLeavePage = () => {
     <>
       <Breadcrumb
         pageName="My Past Leave Requests"
-        description="Check your past leave request along with status of approved/rejected/applied. Will update this page soon."
+        description="Check your past leave request along with status of approved/rejected/applied."
       />
       <MyLeaves />
     </>
