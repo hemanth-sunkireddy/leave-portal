@@ -32,9 +32,9 @@ const SignupForm = () => {
     setSelectedUserType(event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
     setErrorText(null);
-
+    event.preventDefault();
     setIsLoading(true);
     if (name === '') {
       setTimeout(() => {
@@ -65,11 +65,17 @@ const SignupForm = () => {
       }, 1000);
     }
     else {
+      const date = new Date();
+      console.log("TODAY TIME: ", date);
+      date.setMinutes(date.getMinutes() + 330);
+      let isoString = date.toISOString();
       const formData = {
         Name: name,
         Pin: pin,
         Password: password,
-        UserType: selectedUserType
+        UserType: selectedUserType,
+        SignUpTime: isoString,
+        UsageCount: 1
       };
 
       try {
@@ -82,7 +88,7 @@ const SignupForm = () => {
         } else {
           await setDoc(docRef, formData);
           console.log("Document Written: ", docRef);
-          setErrorText("OK");
+          setErrorText("Registration Success. Redirecting to Sign In page...");
           setTimeout(() => {
             setIsLoading(false);
             location.href = '/signin';

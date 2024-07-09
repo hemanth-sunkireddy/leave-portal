@@ -57,6 +57,9 @@ const SignInForm = () => {
                 if (docSnap.exists()) {
                     const storedPassword = docSnap.data().Password;
                     if (storedPassword === password) {
+                        let usageCount = docSnap.data().UsageCount || 0;
+                        usageCount++;
+                        await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
                         setErrorText('User Found. Redirecting to Dashboard...');
                         setTimeout(() => {
                             location.href = '/dashboard';
