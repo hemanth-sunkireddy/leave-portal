@@ -5,7 +5,7 @@ const Hero = () => {
     <>
       <section
         id="home"
-        className="dark:bg-gray-dark relative z-10 overflow-hidden bg-white pb-16 pt-[120px] md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
+        className="dark:bg-gray-dark relative z-10 overflow-hidden bg-white pb-16 pt-[160px] md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
       >
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
@@ -18,9 +18,8 @@ const Hero = () => {
                 University Leave and Outing Pass Automated System Application
                 </h1>
                 <p className="dark:text-body-color-dark mb-12 text-base !leading-relaxed text-body-color sm:text-lg md:text-xl">
-                This Project is a leave/outing pass automated system designed for Educational Universities. 
-                This system is an end-to-end module that enables a user (Student) to raise a request and an admin (Mentor) to approve/decline it. 
-                Whereas on the Hostel Dashboard, the Warden/ Deputy Warden and Hostel Supervisors will be able to view and grant leave passes to the students.
+                This Project is a leave/outing pass automated system designed for <span className="font-bold">LOYOLA POLYTECHNIC COLLEGE</span>, Pulivendla. 
+                This system is an end-to-end module that enables a user (Student) to raise a request and an admin to approve/reject it. 
                 </p>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
