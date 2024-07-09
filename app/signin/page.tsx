@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import SignInForm from "@/components/SignIn";
 
 export const metadata: Metadata = {
-  title: "Sign In Page | Free Next.js Template for Startup and SaaS",
+  title: "Sign In Page | Leave Portal Loyola",
   description: "This is Sign In Page for Startup Nextjs Template",
 };
 

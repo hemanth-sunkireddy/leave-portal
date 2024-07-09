@@ -120,7 +120,7 @@ const ApplyLeaveForm = () => {
 
 
   return (
-    <section className="relative z-10 overflow-hidden pb-16 pt-10 md:pb-20 lg:pb-28 lg:pt-[180px]">
+    <section className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
       <div className="container">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
@@ -185,10 +185,10 @@ const ApplyLeaveForm = () => {
                     <option value="">Select...</option>
                     <option value="mentor1">Girls Mentor 1</option>
                     <option value="mentor2">Girls Mentor 2</option>
-                    <option value="mentor2">Girls Mentor 3</option>
-                    <option value="mentor3">Boys Mentor 1</option>
-                    <option value="mentor4">Boys Mentor 2</option>
-                    <option value="mentor4">Boys Mentor 3</option>
+                    <option value="mentor3">Girls Mentor 3</option>
+                    <option value="mentor4">Boys Mentor 1</option>
+                    <option value="mentor5">Boys Mentor 2</option>
+                    <option value="mentor6">Boys Mentor 3</option>
                   </select>
                   {mentor && (
                     <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">

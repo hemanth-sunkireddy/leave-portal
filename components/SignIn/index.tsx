@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { PassThrough } from 'stream';
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -29,7 +30,6 @@ const SignInForm = () => {
         event.preventDefault();
 
         setIsLoading(true);
-
         if (pin === '') {
 
             setTimeout(() => {
@@ -45,49 +45,141 @@ const SignInForm = () => {
             }, 1000);
         }
         else {
-            const formData = {
-                Pin: pin,
-                Password: password
-            };
-            console.log(formData);
-            try {
-                const docRef = doc(db, "authentication", pin);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    const storedPassword = docSnap.data().Password;
-                    if (storedPassword === password) {
-                        let usageCount = docSnap.data().UsageCount || 0;
-                        usageCount++;
-                        await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
-                        setErrorText('User Found. Redirecting to Dashboard...');
-                        setTimeout(() => {
-                            location.href = '/dashboard';
-                            setIsLoading(false);
-                        }, 1000);
-                    } else {
-                        setErrorText('Incorrect Password. Please try again.');
-                        setIsLoading(false);
-                    }
-                } else {
+            if (pin == 'mentor1') {
+                if (password == 'mentor1') {
+                    setErrorText("Login Success, Redirecting to Dashboard.");
                     setTimeout(() => {
+                        location.href = './mentor-dashboard';
                         setIsLoading(false);
-                        setErrorText("User Not found, Please Sign Up.")
                     }, 1000);
                 }
-            } catch (e) {
-                console.error("Error adding document: ", e);
-                setTimeout(() => {
-                    setIsLoading(false);
-                    setErrorText(e.message.toString());
-                }, 1000);
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
+            else if (pin == 'mentor2') {
+                if (password == 'mentor2') {
+                    setErrorText("Login Success, Redirecting to Dashboard.");
+                    setTimeout(() => {
+                        location.href = './mentor-dashboard';
+                        setIsLoading(false);
+                    }, 1000);
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
+            else if (pin === 'mentor3') {
+                if (password == 'mentor3') {
+                    setErrorText("Login Success, Redirecting to Dashboard.");
+                    setTimeout(() => {
+                        location.href = './mentor-dashboard';
+                        setIsLoading(false);
+                    }, 1000);
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
+            else if (pin === 'mentor4') {
+                if (password == 'mentor4') {
+                    setErrorText("Login success, Redirecting to Dashboard.");
+                    setTimeout(() => {
+                        location.href = './mentor-dashboard';
+                        setIsLoading(false);
+                    }, 1000);
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
+            else if (pin === 'mentor5') {
+                if (password == 'mentor5') {
+                    setErrorText("Login Success, Redirecting to Dashboard.");
+                    setTimeout(() => {
+                        location.href = './mentor-dashboard';
+                        setIsLoading(false);
+                    }, 1000);
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
+            else if (pin === 'mentor6') {
+                if (password == 'mentor6') {
+                    setErrorText("Login Success, Redirecting to Dashboard.");
+                    setTimeout(() => {
+                        location.href = './mentor-dashboard';
+                        setIsLoading(false);
+                    }, 1000);
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
+            else {
+                const formData = {
+                    Pin: pin,
+                    Password: password
+                };
+                console.log(formData);
+                try {
+                    const docRef = doc(db, "authentication", pin);
+                    const docSnap = await getDoc(docRef);
+
+                    if (docSnap.exists()) {
+                        const storedPassword = docSnap.data().Password;
+                        if (storedPassword === password) {
+                            let usageCount = docSnap.data().UsageCount || 0;
+                            usageCount++;
+                            await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
+                            setErrorText('User Found. Redirecting to Dashboard...');
+                            setTimeout(() => {
+                                location.href = '/dashboard';
+                                setIsLoading(false);
+                            }, 1000);
+                        } else {
+                            setErrorText('Incorrect Password. Please try again.');
+                            setIsLoading(false);
+                        }
+                    } else {
+                        setTimeout(() => {
+                            setIsLoading(false);
+                            setErrorText("User Not found, Please Sign Up.")
+                        }, 1000);
+                    }
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                    setTimeout(() => {
+                        setIsLoading(false);
+                        setErrorText(e.message.toString());
+                    }, 1000);
+                }
             }
         }
-    };
+    }
 
 
     return (
-        <section className="relative z-10 overflow-hidden pb-16 pt-10 md:pb-20 lg:pb-28 lg:pt-[180px]">
+        <section className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
             <div className="container">
                 <div className="-mx-4 flex flex-wrap">
                     <div className="w-full px-4">

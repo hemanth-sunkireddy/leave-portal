@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -14,13 +14,13 @@ const firebaseConfig = {
     measurementId: "G-VD1JVK0RN9"
 };
 
-const MyLeaves = () => {
+const MentorPage = () => {
     const [pin, setPin] = useState('');
     const app = initializeApp(firebaseConfig);
     const [errorText, setErrorText] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [myleaves, setMyLeaves] = useState(false);
-    const [leaveData, setLeaveData] = useState(null);
+    const [leaveData, setLeaveData] = useState([]);
 
     const db = getFirestore(app);
     const handleSubmit = async (event) => {
@@ -33,21 +33,22 @@ const MyLeaves = () => {
         }
         else {
             try {
-                const docRef = doc(db, "leaves", pin);
-                const docSnap = await getDoc(docRef);
+                const leavesRef = collection(db, "leaves");
+                const q = query(leavesRef, where("Mentor", "==", pin));
+                const querySnapshot = await getDocs(q);
 
-                if (docSnap.exists()) {
-                    console.log(docSnap);
-                    setErrorText("Leave Request Found.");
-                    setMyLeaves(true);
-                    console.log(docSnap.data());
-                    setLeaveData(docSnap.data());
-
-                }
-                else {
-                    setErrorText("No Leave Requests Applied. Apply Now.");
+                if (querySnapshot.empty) {
+                    setErrorText("No Student Applied For leave under you.");
                     setIsLoading(false);
+                } else {
+                    let leaves = [];
+                    querySnapshot.forEach((doc) => {
+                        leaves.push(doc.data());
+                    });
+                    setLeaveData(leaves);
+                    setMyLeaves(true);
                 }
+
             } catch (error) {
                 console.log(error);
                 setIsLoading(false);
@@ -94,42 +95,46 @@ const MyLeaves = () => {
                                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.004 8.004 0 014.478 4.478L2.586 6.586M20 12c0-4.418-3.582-8-8-8v4c2.237 0 4.287.913 5.758 2.394L15.172 11M12 20a8 8 0 008-8h-4c-2.237 0-4.287-.913-5.758-2.394L8.828 13"></path>
                                             </svg>
                                         ) : (
-                                            'Get My Leaves'
+                                            'Get My Student Leaves'
                                         )}
                                     </button>
                                 </div>
                             </form>) :
                                 (
                                     <div className="overflow-x-auto">
-                                        <table className="min-w-full bg-white dark:bg-dark border-gray-200 dark:border-gray-600">
+                                        <table className="min-w-full bg-white dark:bg-dark border  border-lime-600 dark:border-gray-600">
                                             <tbody>
-                                                <tr>
-                                                    <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
-                                                    <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.Pin}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
-                                                    <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.Reason}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
-                                                    <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.ParentMobile}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
-                                                    <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.Mentor}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time:</th>
-                                                    <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.ApplicationTime}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
-                                                    <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.Status}</td>
-                                                </tr>
+                                                {leaveData.map((leave, index) => (
+                                                    <React.Fragment key={index}>
+                                                        <tr>
+                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
+                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
+                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
+                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
+                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time:</th>
+                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th className="py-2 px-4 border-b border-lime-500 dark:border-lime-600 font-semibold">Status:</th>
+                                                            <td className="py-2 px-4 border-b border-lime-500 dark:border-lime-600">{leave.Status}</td>
+                                                        </tr>
+                                                    </React.Fragment>
+                                                ))}
                                             </tbody>
-                                        </table>
 
+                                        </table>
                                     </div>
                                 )}
 
@@ -197,4 +202,4 @@ const MyLeaves = () => {
         </section>
     );
 };
-export default MyLeaves;
+export default MentorPage;
