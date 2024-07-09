@@ -74,7 +74,7 @@ const MyLeaves = () => {
                                         className="mb-3 block text-sm text-dark dark:text-white"
                                     >
                                         {" "}
-                                        Your Pin{" "}
+                                        Your Id{" "}
                                     </label>
                                     <input
                                         type="text"
@@ -126,6 +126,14 @@ const MyLeaves = () => {
                                                 <tr>
                                                     <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
                                                     <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.Status}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Number of Days:</th>
+                                                    <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.TotalDays}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence type:</th>
+                                                    <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.Residence}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

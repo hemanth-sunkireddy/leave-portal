@@ -21,6 +21,9 @@ const ApplyLeaveForm = () => {
   const [mentor, setMentor] = useState('');
   const [reason, setReason] = useState('');
   const [parentMobile, setParentMobile] = useState('');
+  const [totalDays, setTotalDays] = useState('');
+  const [gender, setGender] = useState('');
+  const [residence, setResidence] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const app = initializeApp(firebaseConfig);
@@ -30,6 +33,14 @@ const ApplyLeaveForm = () => {
 
   const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setMentor(event.target.value);
+  };
+
+  const handleGender = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGender(event.target.value);
+  };
+
+  const handleResidence = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setResidence(event.target.value);
   };
 
   const handleSubmit = async (event) => {
@@ -44,13 +55,6 @@ const ApplyLeaveForm = () => {
         setErrorText("Please Fill your Parent Mobile Number.");
       }, 1000);
     }
-    else if (pin === '') {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Enter your pin.");
-      }, 1000);
-    }
     else if (reason === '') {
 
       setTimeout(() => {
@@ -58,11 +62,11 @@ const ApplyLeaveForm = () => {
         setErrorText("Please Fill Reason For Leave.");
       }, 1000);
     }
-    else if (password === '') {
+    else if (totalDays === '') {
 
       setTimeout(() => {
         setIsLoading(false);
-        setErrorText("Please Fill  Password.");
+        setErrorText("Please Enter Total number of Days for Leave.");
       }, 1000);
     }
     else if (mentor === '' || mentor === "Select...") {
@@ -70,6 +74,34 @@ const ApplyLeaveForm = () => {
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Select Your Mentor.");
+      }, 1000);
+    }
+    else if (gender === '' || gender === "Select...") {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Select Your Gender.");
+      }, 1000);
+    }
+    else if (residence === '' || residence === "Select...") {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Select Your Residence type.");
+      }, 1000);
+    }
+    else if (pin === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Enter your pin.");
+      }, 1000);
+    }
+    else if (password === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Fill  Password.");
       }, 1000);
     }
     else {
@@ -84,7 +116,9 @@ const ApplyLeaveForm = () => {
         ParentMobile: parentMobile,
         Mentor: mentor,
         ApplicationTime: isoString,
-        Status: "Applied"
+        Status: "Applied",
+        TotalDays: totalDays,
+        Residence: residence,
       };
       try {
 
@@ -183,18 +217,59 @@ const ApplyLeaveForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   >
                     <option value="">Select...</option>
-                    <option value="mentor1">Girls Mentor 1</option>
-                    <option value="mentor2">Girls Mentor 2</option>
-                    <option value="mentor3">Girls Mentor 3</option>
-                    <option value="mentor4">Boys Mentor 1</option>
-                    <option value="mentor5">Boys Mentor 2</option>
-                    <option value="mentor6">Boys Mentor 3</option>
+                    <option value="Mary">Mary</option>
+                    <option value="Ashok">Ashok</option>
+                    <option value="Aruna">Aruna</option>
+                    <option value="Ramana">Ramana</option>
+                    <option value="Bhanu">Bhanu</option>
+                    <option value="Veeranjaneyulu">Veeranjaneyulu</option>
                   </select>
-                  {mentor && (
-                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                      You selected: {mentor}
-                    </p>
-                  )}
+                </div>
+                <div className="mb-8">
+                  <label
+                    htmlFor="days"
+                    className="mb-3 block text-sm text-dark dark:text-white"
+                  >
+                    {" "}
+                    Total Number of Days{" "}
+                  </label>
+                  <input
+                    type="number"
+                    name="days"
+                    placeholder="Enter number of days you want to apply"
+                    onChange={(e) => setTotalDays(e.target.value)}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  />
+                </div>
+                <div className="mb-8">
+                  <label htmlFor="gender" className="block text-sm text-dark dark:text-white mb-3">
+                    Select Your Gender
+                  </label>
+                  <select
+                    id="gender"
+                    name="gender"
+                    onChange={handleGender}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  >
+                    <option value="">Select...</option>
+                    <option value="Girl">Girl</option>
+                    <option value="Boy">Boy</option>
+                  </select>
+                </div>
+                <div className="mb-8">
+                  <label htmlFor="residence" className="block text-sm text-dark dark:text-white mb-3">
+                    Select Your Residence type
+                  </label>
+                  <select
+                    id="residence"
+                    name="residence"
+                    onChange={handleResidence}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  >
+                    <option value="">Select...</option>
+                    <option value="Hostel">Hosteler</option>
+                    <option value="Day Scholar">Day Scholar</option>
+                  </select>
                 </div>
                 <div className="mb-8">
                   <label
@@ -228,30 +303,6 @@ const ApplyLeaveForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                {/* <div className="mb-8">
-                  <label htmlFor="userType" className="block text-sm text-dark dark:text-white mb-3">
-                    Select User Type
-                  </label>
-                  <select
-                    id="userType"
-                    name="userType"
-                    value={mentor}
-                    onChange={handleUserTypeChange}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  >
-                    <option value="">Select...</option>
-                    <option value="student">Student</option>
-                    <option value="mentor">Mentor</option>
-                    <option value="warden">Warden</option>
-                    <option value="principal">Principal</option>
-                  </select>
-                  {mentor && (
-                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                      You selected: {mentor}
-                    </p>
-                  )}
-                </div> */}
-
                 <div className="mb-6">
                   <button type="submit" className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
                     {isLoading ? (

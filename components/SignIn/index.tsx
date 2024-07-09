@@ -148,9 +148,14 @@ const SignInForm = () => {
                     if (docSnap.exists()) {
                         const storedPassword = docSnap.data().Password;
                         if (storedPassword === password) {
+                            const date = new Date();
+                            console.log("TODAY TIME: ", date);
+                            date.setMinutes(date.getMinutes() + 330);
+                            let isoString = date.toISOString();
                             let usageCount = docSnap.data().UsageCount || 0;
                             usageCount++;
                             await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
+                            await setDoc(docRef, { SignUpTime: isoString }, { merge: true });
                             setErrorText('User Found. Redirecting to Dashboard...');
                             setTimeout(() => {
                                 location.href = '/dashboard';
@@ -190,7 +195,7 @@ const SignInForm = () => {
                             <div className="mb-8 flex items-center justify-center">
                                 <span className="hidden h-[1px] w-full max-w-[70px] bg-body-color/50 sm:block"></span>
                                 <p className="w-full px-5 text-center text-base font-medium text-body-color">
-                                    Login in with your pin
+                                    Login in with your ID
                                 </p>
                                 <span className="hidden h-[1px] w-full max-w-[70px] bg-body-color/50 sm:block"></span>
                             </div>
@@ -200,12 +205,12 @@ const SignInForm = () => {
                                         htmlFor="pin"
                                         className="mb-3 block text-sm text-dark dark:text-white"
                                     >
-                                        Your Pin Number
+                                        Your Id
                                     </label>
                                     <input
                                         type="pin"
                                         name="pin"
-                                        placeholder="Enter your Pin Number"
+                                        placeholder="Enter your ID"
                                         onChange={(e) => setPin(e.target.value)}
                                         className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                                     />
