@@ -24,6 +24,7 @@ const MentorPage = () => {
 
     const db = getFirestore(app);
     const handleSubmit = async (event) => {
+        setErrorText('');
         setIsLoading(true);
         event.preventDefault();
 
