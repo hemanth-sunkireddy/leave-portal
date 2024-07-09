@@ -18,7 +18,7 @@ const firebaseConfig = {
 
 
 const SignupForm = () => {
-  const [selectedUserType, setSelectedUserType] = useState('');
+  // const [selectedUserType, setSelectedUserType] = useState('');
   const [name, setName] = useState('');
   const [pin, setPin] = useState('');
   const [password, setPassword] = useState('');
@@ -28,9 +28,9 @@ const SignupForm = () => {
 
   const db = getFirestore(app);
 
-  const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUserType(event.target.value);
-  };
+  // const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedUserType(event.target.value);
+  // };
 
   const handleSubmit = async (event) => {
     setErrorText(null);
@@ -57,13 +57,6 @@ const SignupForm = () => {
         setErrorText("Please Fill your Password");
       }, 1000);
     }
-    else if (selectedUserType === '' || selectedUserType === 'Select') {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Select User Type");
-      }, 1000);
-    }
     else {
       const date = new Date();
       console.log("TODAY TIME: ", date);
@@ -73,7 +66,7 @@ const SignupForm = () => {
         Name: name,
         Pin: pin,
         Password: password,
-        UserType: selectedUserType,
+        UserType: "Student",
         SignUpTime: isoString,
         UsageCount: 1
       };
@@ -175,7 +168,7 @@ const SignupForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                <div className="mb-8">
+                {/* <div className="mb-8">
                   <label htmlFor="userType" className="block text-sm text-dark dark:text-white mb-3">
                     Select User Type
                   </label>
@@ -197,7 +190,7 @@ const SignupForm = () => {
                       You selected: {selectedUserType}
                     </p>
                   )}
-                </div>
+                </div> */}
 
                 <div className="mb-6">
                   <button type="submit" className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
