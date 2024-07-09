@@ -1,64 +1,114 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: "leave-portal-loyola",
+  storageBucket: "leave-portal-loyola.appspot.com",
+  messagingSenderId: "625337491200",
+  appId: "1:625337491200:web:9d50c8103122e9799fdde5",
+  measurementId: "G-VD1JVK0RN9"
+};
 
 const ApplyLeaveForm = () => {
-  // const [selectedUserType, setSelectedUserType] = useState('');
+  const [pin, setPin] = useState('');
+  const [password, setPassword] = useState("");
+  const [mentor, setMentor] = useState('');
   const [reason, setReason] = useState('');
   const [parentMobile, setParentMobile] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const app = initializeApp(firebaseConfig);
+
+  const db = getFirestore(app);
+
+
+  const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setMentor(event.target.value);
+  };
 
   const handleSubmit = async (event) => {
-    
+
     setErrorText(null);
     event.preventDefault();
 
     setIsLoading(true);
     if (parentMobile === '') {
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Fill your Parent Mobile Number.");
+      }, 1000);
+    }
+    else if (pin === '') {
 
       setTimeout(() => {
         setIsLoading(false);
-        setErrorText("Please Fill your Parent Mobile Number");
+        setErrorText("Please Enter your pin.");
       }, 1000);
     }
     else if (reason === '') {
 
       setTimeout(() => {
         setIsLoading(false);
-        setErrorText("Please Fill Reason For Leave");
+        setErrorText("Please Fill Reason For Leave.");
+      }, 1000);
+    }
+    else if (password === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Fill  Password.");
+      }, 1000);
+    }
+    else if (mentor === '' || mentor === "Select...") {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Select Your Mentor.");
       }, 1000);
     }
     else {
+      const date = new Date();
+      console.log("TODAY TIME: ", date);
+      date.setMinutes(date.getMinutes() + 330);
+      let isoString = date.toISOString();
       const formData = {
-        // Pin: userpin,
-        Reason: reason, 
-        ParentMobile: parentMobile
+        Pin: pin,
+        Password: password,
+        Reason: reason,
+        ParentMobile: parentMobile,
+        Mentor: mentor,
+        ApplicationTime: isoString,
+        Status: "Applied"
       };
       try {
 
-        const response = await fetch('https://leave-portal-backend.onrender.com/new-leave', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-        console.log(response);
-        if (response.status === 500) {
-          setErrorText("Internal Server Error.");
-        }
-        else if (response.status === 200) {
-          setErrorText("Applied Leave Successfully, redirecting to My Leave Requests...");
-          setTimeout(() => {
+        const docRef = doc(db, "authentication", pin);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const storedPassword = docSnap.data().Password;
+          if (storedPassword === password) {
+            const leaveRef = doc(db, "leaves", pin);
+            await setDoc(leaveRef, formData, { merge: true });
+            setErrorText('Application Success. Redirecting to My Leaves...');
+            setTimeout(() => {
+              location.href = '/my-leaves';
+              setIsLoading(false);
+            }, 1000);
+          } else {
+            setErrorText('Incorrect Password. Please check password.');
             setIsLoading(false);
-            // location.href = '/my-leaves';
-          }, 1000);
+          }
+        } else {
+          setErrorText("User Not Found. Please Check the entered pin.");
+          setIsLoading(false);
         }
-        else {
-          setErrorText(response.statusText.toString());
-        }
-        setIsLoading(false);
       } catch (error) {
         setTimeout(() => {
           setIsLoading(false);
@@ -123,6 +173,30 @@ const ApplyLeaveForm = () => {
                   />
                 </div>
                 <div className="mb-8">
+                  <label htmlFor="mentor" className="block text-sm text-dark dark:text-white mb-3">
+                    Select Mentor
+                  </label>
+                  <select
+                    id="mentor"
+                    name="mentor"
+                    onChange={handleUserTypeChange}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  >
+                    <option value="">Select...</option>
+                    <option value="mentor1">Girls Mentor 1</option>
+                    <option value="mentor2">Girls Mentor 2</option>
+                    <option value="mentor2">Girls Mentor 3</option>
+                    <option value="mentor3">Boys Mentor 1</option>
+                    <option value="mentor4">Boys Mentor 2</option>
+                    <option value="mentor4">Boys Mentor 3</option>
+                  </select>
+                  {mentor && (
+                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                      You selected: {mentor}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-8">
                   <label
                     htmlFor="userpin"
                     className="mb-3 block text-sm text-dark dark:text-white"
@@ -134,6 +208,7 @@ const ApplyLeaveForm = () => {
                     type="text"
                     name="userpin"
                     placeholder="Enter your Pin Number"
+                    onChange={(e) => setPin(e.target.value)}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
@@ -149,6 +224,7 @@ const ApplyLeaveForm = () => {
                     type="password"
                     name="password"
                     placeholder="Enter your Password"
+                    onChange={(e) => setPassword(e.target.value)}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
@@ -159,7 +235,7 @@ const ApplyLeaveForm = () => {
                   <select
                     id="userType"
                     name="userType"
-                    value={selectedUserType}
+                    value={mentor}
                     onChange={handleUserTypeChange}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   >
@@ -169,9 +245,9 @@ const ApplyLeaveForm = () => {
                     <option value="warden">Warden</option>
                     <option value="principal">Principal</option>
                   </select>
-                  {selectedUserType && (
+                  {mentor && (
                     <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                      You selected: {selectedUserType}
+                      You selected: {mentor}
                     </p>
                   )}
                 </div> */}
