@@ -1,6 +1,21 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: "leave-portal-loyola",
+  storageBucket: "leave-portal-loyola.appspot.com",
+  messagingSenderId: "625337491200",
+  appId: "1:625337491200:web:9d50c8103122e9799fdde5",
+  measurementId: "G-VD1JVK0RN9"
+};
+
+
 
 const SignupForm = () => {
   const [selectedUserType, setSelectedUserType] = useState('');
@@ -9,14 +24,16 @@ const SignupForm = () => {
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const app = initializeApp(firebaseConfig);
+
+  const db = getFirestore(app);
 
   const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserType(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async () => {
     setErrorText(null);
-    event.preventDefault();
 
     setIsLoading(true);
     if (name === '') {
@@ -56,37 +73,27 @@ const SignupForm = () => {
       };
 
       try {
+        const docRef = doc(db, "authentication", pin);
+        const docSnap = await getDoc(docRef);
 
-        const response = await fetch('https://leave-portal-backend.onrender.com/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-        console.log(response);
-        if (response.status === 500) {
-          setErrorText("Internal Server Error.");
-        }
-        else if (response.status === 400) {
-          console.log("HERE:");
-          setErrorText("User Already Exists, Please Login");
-        }
-        else if (response.status === 200) {
-          setErrorText("Registration Success, Redirecting to Sign In page...");
+        if (docSnap.exists()) {
+          setErrorText('User Already Exist. Please sign in.');
+          setIsLoading(false);
+        } else {
+          await setDoc(docRef, formData);
+          console.log("Document Written: ", docRef);
+          setErrorText("OK");
           setTimeout(() => {
             setIsLoading(false);
             location.href = '/signin';
           }, 1000);
+          setIsLoading(false);
         }
-        else {
-          setErrorText(response.statusText.toString());
-        }
-        setIsLoading(false);
-      } catch (error) {
+      } catch (e) {
+        console.error("Error adding document: ", e);
         setTimeout(() => {
           setIsLoading(false);
-          setErrorText(error.message.toString());
+          setErrorText(e.message.toString());
         }, 1000);
       }
     }

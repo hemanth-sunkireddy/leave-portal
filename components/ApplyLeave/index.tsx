@@ -108,15 +108,15 @@ const ApplyLeaveForm = () => {
                 </div>
                 <div className="mb-8">
                   <label
-                    htmlFor="pin"
+                    htmlFor="mobile"
                     className="mb-3 block text-sm text-dark dark:text-white"
                   >
                     {" "}
                     Parent Mobile{" "}
                   </label>
                   <input
-                    type="pin"
-                    name="pin"
+                    type="mobile"
+                    name="mobile"
                     placeholder="Enter your Parent Mobile Number"
                     onChange={(e) => setParentMobile(e.target.value)}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
@@ -133,8 +133,22 @@ const ApplyLeaveForm = () => {
                   <input
                     type="text"
                     name="userpin"
-                    value={""}
-                    disabled
+                    placeholder="Enter your Pin Number"
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  />
+                </div>
+                <div className="mb-8">
+                  <label
+                    htmlFor="password"
+                    className="mb-3 block text-sm text-dark dark:text-white"
+                  >
+                    {" "}
+                    Password{" "}
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your Password"
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>

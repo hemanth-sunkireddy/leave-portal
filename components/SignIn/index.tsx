@@ -1,6 +1,19 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+
+const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: "leave-portal-loyola",
+    storageBucket: "leave-portal-loyola.appspot.com",
+    messagingSenderId: "625337491200",
+    appId: "1:625337491200:web:9d50c8103122e9799fdde5",
+    measurementId: "G-VD1JVK0RN9"
+};
 
 
 const SignInForm = () => {
@@ -8,6 +21,8 @@ const SignInForm = () => {
     const [password, setPassword] = useState('');
     const [errorText, setErrorText] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
     const handleSubmit = async (event) => {
         setErrorText(null);
@@ -29,54 +44,39 @@ const SignInForm = () => {
                 setErrorText("Please Fill your Password");
             }, 1000);
         }
-
         else {
-            // Prepare data object
             const formData = {
                 Pin: pin,
                 Password: password
             };
             console.log(formData);
             try {
-                // Example POST request using fetch
-                const response = await fetch('https://leave-portal-backend.onrender.com/signin', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        // Add any other headers needed
-                    },
-                    body: JSON.stringify(formData),
-                });
-                console.log(response);
-                // if (!response.ok) {
-                //   throw new Error('Network response was not ok');
-                // }
-                if (response.status === 500) {
-                    setErrorText("Internal Server Error.");
-                }
-                else if (response.status === 404) {
-                    setErrorText("User Does Not Exist, Please Sign Up");
-                }
-                else if (response.status === 400) {
-                    setErrorText("Invalid Password");
-                }
-                else if (response.status === 200) {
-                    setErrorText("User Found, Redirecting to Dashboard...");
+                const docRef = doc(db, "authentication", pin);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const storedPassword = docSnap.data().Password;
+                    if (storedPassword === password) {
+                        setErrorText('User Found. Redirecting to Dashboard...');
+                        setTimeout(() => {
+                            location.href = '/dashboard';
+                            setIsLoading(false);
+                        }, 1000);
+                    } else {
+                        setErrorText('Incorrect Password. Please try again.');
+                        setIsLoading(false);
+                    }
+                } else {
                     setTimeout(() => {
                         setIsLoading(false);
-                        location.href = `/dashboard?userpin=${encodeURIComponent(pin)}`;
+                        setErrorText("User Not found, Please Sign Up.")
                     }, 1000);
-                    
                 }
-                else {
-                    setErrorText("Error: " + response.status.toString());
-                }
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Error signing up:', error.message);
+            } catch (e) {
+                console.error("Error adding document: ", e);
                 setTimeout(() => {
                     setIsLoading(false);
-                    setErrorText(error.message.toString());
+                    setErrorText(e.message.toString());
                 }, 1000);
             }
         }
