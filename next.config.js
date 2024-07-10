@@ -8,7 +8,10 @@ const nextConfig = {
         port: "",
       },
     ],
-  }
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 };
 
 module.exports = nextConfig;
