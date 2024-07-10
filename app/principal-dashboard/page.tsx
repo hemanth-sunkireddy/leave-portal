@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { Metadata } from "next";
-import PrincipalPage from "@/components/PrincipalDashboard";
+import PrincipalHomeComponent from "@/components/PrincipalDashboard";
 
 export const metadata: Metadata = {
   title: "Principal Dashboard | Leave Management Loyola",
@@ -14,7 +14,7 @@ const PrincipalDashboard = () => {
         pageName="Hi Principal"
         description="View your Students/Faculty applied leave requests and Please approve/reject them."
       />
-      <PrincipalPage />
+      <PrincipalHomeComponent />
     </>
   );
 };
