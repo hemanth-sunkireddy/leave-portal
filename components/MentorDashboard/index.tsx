@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { useSearchParams } from 'next/navigation';
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -18,21 +19,48 @@ const MentorPage = () => {
     const [pin, setPin] = useState('');
     const app = initializeApp(firebaseConfig);
     const [errorText, setErrorText] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [myleaves, setMyLeaves] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [leaveData, setLeaveData] = useState([]);
-
     const db = getFirestore(app);
-    const handleSubmit = async (event) => {
-        setErrorText('');
-        setIsLoading(true);
-        event.preventDefault();
 
-        if (pin === '') {
-            setErrorText("Please enter the pin");
-            setIsLoading(false);
-        }
-        else {
+    const searchParams = useSearchParams();
+    const [id, setId] = useState<string | null>(null);
+
+    useEffect(() => {
+        setId(searchParams.get('userid'));
+    }, [searchParams]);
+
+    useEffect(() => {
+        const fetchPinFromDatabase = async () => {
+            try {
+                if (!id) return;
+
+                // Query the 'authentication' collection where 'UniqueID' field equals 'id'
+                const authQuery = query(collection(db, 'authentication'), where('UniqueID', '==', id));
+                const querySnapshot = await getDocs(authQuery);
+
+                if (!querySnapshot.empty) {
+                    // Assuming there's only one document that matches the query
+                    const pinDoc = querySnapshot.docs[0];
+                    const userPin = pinDoc.data().Pin; // Adjust 'Pin' to match the field name in Firestore
+                    setPin(userPin);
+                } else {
+                    setIsLoading(false);
+                    setErrorText("Error in Fetching Data. Please sign in again.");
+                }
+            } catch (error) {
+                console.error("Error fetching PIN document:", error);
+                setErrorText("Error fetching PIN document.");
+            }
+        };
+
+        fetchPinFromDatabase();
+    }, [id, db]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!pin) return;
+
             try {
                 const leavesRef = collection(db, "leaves");
                 const q = query(leavesRef, where("Mentor", "==", pin));
@@ -48,7 +76,6 @@ const MentorPage = () => {
                         leaves.push(doc.data());
                     });
                     setLeaveData(leaves);
-                    setMyLeaves(true);
                 }
 
             } catch (error) {
@@ -56,8 +83,15 @@ const MentorPage = () => {
                 setIsLoading(false);
                 setErrorText(error.message.toString());
             }
-        }
-    }
+        };
+
+        fetchData();
+    }, [pin, db]);
+
+
+    useEffect(() =>{
+        if(leaveData) setIsLoading(false);
+    }, [leaveData]);
 
     return (
         <section className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
@@ -70,75 +104,47 @@ const MentorPage = () => {
                                     {errorText}
                                 </p>
                             )}
-                            {!myleaves ? (<form onSubmit={handleSubmit}>
-                                <div className="mb-8">
-                                    <label
-                                        htmlFor="pin"
-                                        className="mb-3 block text-sm text-dark dark:text-white"
-                                    >
-                                        {" "}
-                                        Your Pin{" "}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="pin"
-                                        placeholder="Enter Your Pin"
-                                        onChange={(e) => setPin(e.target.value)}
-                                        className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                                    />
+                            {isLoading ? (
+                                <p className="mt-2 text-sm text-lime-600 font-bold text-center">
+                                    Loading...
+                                </p>
+                            ) : (
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full bg-white dark:bg-dark border  border-lime-600 dark:border-gray-600">
+                                        <tbody>
+                                            {leaveData.map((leave, index) => (
+                                                <React.Fragment key={index}>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-lime-500 dark:border-lime-600 font-semibold">Status:</th>
+                                                        <td className="py-2 px-4 border-b border-lime-500 dark:border-lime-600">{leave.Status}</td>
+                                                    </tr>
+                                                </React.Fragment>
+                                            ))}
+                                        </tbody>
+
+                                    </table>
                                 </div>
-
-
-                                <div className="mb-6">
-                                    <button type="submit" className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
-                                        {isLoading ? (
-                                            <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.004 8.004 0 014.478 4.478L2.586 6.586M20 12c0-4.418-3.582-8-8-8v4c2.237 0 4.287.913 5.758 2.394L15.172 11M12 20a8 8 0 008-8h-4c-2.237 0-4.287-.913-5.758-2.394L8.828 13"></path>
-                                            </svg>
-                                        ) : (
-                                            'Get My Student Leaves'
-                                        )}
-                                    </button>
-                                </div>
-                            </form>) :
-                                (
-                                    <div className="overflow-x-auto">
-                                        <table className="min-w-full bg-white dark:bg-dark border  border-lime-600 dark:border-gray-600">
-                                            <tbody>
-                                                {leaveData.map((leave, index) => (
-                                                    <React.Fragment key={index}>
-                                                        <tr>
-                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
-                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
-                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
-                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
-                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time:</th>
-                                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th className="py-2 px-4 border-b border-lime-500 dark:border-lime-600 font-semibold">Status:</th>
-                                                            <td className="py-2 px-4 border-b border-lime-500 dark:border-lime-600">{leave.Status}</td>
-                                                        </tr>
-                                                    </React.Fragment>
-                                                ))}
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-                                )}
+                            )}
 
                         </div>
                     </div>

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useSearchParams } from 'next/navigation'
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -17,6 +16,8 @@ const firebaseConfig = {
 };
 
 
+
+
 const SignInForm = () => {
     const [pin, setPin] = useState('');
     const [password, setPassword] = useState('');
@@ -24,7 +25,49 @@ const SignInForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    
+
+
+    const getUserIdAndRedirect = async (pin, route) => {
+        try {
+            const docRef = doc(db, "authentication", pin);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const storedPassword = docSnap.data().Password;
+                if (storedPassword === password) {
+                    const date = new Date();
+                    console.log("TODAY TIME: ", date);
+                    date.setMinutes(date.getMinutes() + 330);
+                    let isoString = date.toISOString();
+                    let usageCount = docSnap.data().UsageCount || 0;
+                    const userID = docSnap.data().UniqueID || 0;
+                    usageCount++;
+                    await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
+                    await setDoc(docRef, { SignUpTime: isoString }, { merge: true });
+                    setErrorText('User Found. Redirecting to Dashboard...');
+                    setTimeout(() => {
+                        location.href = `/${route}/?userid=${userID}`;
+                        setIsLoading(false);
+                    }, 1000);
+                } else {
+                    setErrorText('Incorrect Password. Please try again.');
+                    setIsLoading(false);
+                }
+            } else {
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setErrorText("User Not found, Please Sign Up.")
+                }, 1000);
+            }
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            setTimeout(() => {
+                setIsLoading(false);
+                setErrorText(e.message.toString());
+            }, 1000);
+        }
+    };
+
 
     const handleSubmit = async (event) => {
         setErrorText(null);
@@ -46,13 +89,9 @@ const SignInForm = () => {
             }, 1000);
         }
         else {
-            if (pin == 'mentor1') {
-                if (password == 'mentor1') {
-                    setErrorText("Login Success, Redirecting to Dashboard.");
-                    setTimeout(() => {
-                        location.href = './mentor-dashboard';
-                        setIsLoading(false);
-                    }, 1000);
+            if (pin == 'Mary') {
+                if (password == 'Mary') {
+                    getUserIdAndRedirect(pin, "mentor-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -61,13 +100,9 @@ const SignInForm = () => {
                     }, 1000);
                 }
             }
-            else if (pin == 'mentor2') {
-                if (password == 'mentor2') {
-                    setErrorText("Login Success, Redirecting to Dashboard.");
-                    setTimeout(() => {
-                        location.href = './mentor-dashboard';
-                        setIsLoading(false);
-                    }, 1000);
+            else if (pin == 'Aruna') {
+                if (password == 'Aruna') {
+                    getUserIdAndRedirect(pin, "mentor-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -76,13 +111,9 @@ const SignInForm = () => {
                     }, 1000);
                 }
             }
-            else if (pin === 'mentor3') {
-                if (password == 'mentor3') {
-                    setErrorText("Login Success, Redirecting to Dashboard.");
-                    setTimeout(() => {
-                        location.href = './mentor-dashboard';
-                        setIsLoading(false);
-                    }, 1000);
+            else if (pin === 'Ashok') {
+                if (password == 'Ashok') {
+                    getUserIdAndRedirect(pin, "mentor-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -91,13 +122,9 @@ const SignInForm = () => {
                     }, 1000);
                 }
             }
-            else if (pin === 'mentor4') {
-                if (password == 'mentor4') {
-                    setErrorText("Login success, Redirecting to Dashboard.");
-                    setTimeout(() => {
-                        location.href = './mentor-dashboard';
-                        setIsLoading(false);
-                    }, 1000);
+            else if (pin === 'Ramana') {
+                if (password == 'Ramana') {
+                    getUserIdAndRedirect(pin, "mentor-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -106,13 +133,9 @@ const SignInForm = () => {
                     }, 1000);
                 }
             }
-            else if (pin === 'mentor5') {
-                if (password == 'mentor5') {
-                    setErrorText("Login Success, Redirecting to Dashboard.");
-                    setTimeout(() => {
-                        location.href = './mentor-dashboard';
-                        setIsLoading(false);
-                    }, 1000);
+            else if (pin === 'Bhanu') {
+                if (password == 'Bhanu') {
+                    getUserIdAndRedirect(pin, "mentor-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -121,13 +144,9 @@ const SignInForm = () => {
                     }, 1000);
                 }
             }
-            else if (pin === 'mentor6') {
-                if (password == 'mentor6') {
-                    setErrorText("Login Success, Redirecting to Dashboard.");
-                    setTimeout(() => {
-                        location.href = './mentor-dashboard';
-                        setIsLoading(false);
-                    }, 1000);
+            else if (pin === 'Veeranjaneyulu') {
+                if (password == 'Veeranjaneyulu') {
+                    getUserIdAndRedirect(pin, "mentor-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -137,49 +156,7 @@ const SignInForm = () => {
                 }
             }
             else {
-                const formData = {
-                    Pin: pin,
-                    Password: password
-                };
-                console.log(formData);
-                try {
-                    const docRef = doc(db, "authentication", pin);
-                    const docSnap = await getDoc(docRef);
-
-                    if (docSnap.exists()) {
-                        const storedPassword = docSnap.data().Password;
-                        if (storedPassword === password) {
-                            const date = new Date();
-                            console.log("TODAY TIME: ", date);
-                            date.setMinutes(date.getMinutes() + 330);
-                            let isoString = date.toISOString();
-                            let usageCount = docSnap.data().UsageCount || 0;
-                            const userID = docSnap.data().UniqueID || 0;
-                            usageCount++;
-                            await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
-                            await setDoc(docRef, { SignUpTime: isoString }, { merge: true });
-                            setErrorText('User Found. Redirecting to Dashboard...');
-                            setTimeout(() => {
-                                location.href = `/dashboard/?userid=${userID}`;
-                                setIsLoading(false);
-                            }, 1000);
-                        } else {
-                            setErrorText('Incorrect Password. Please try again.');
-                            setIsLoading(false);
-                        }
-                    } else {
-                        setTimeout(() => {
-                            setIsLoading(false);
-                            setErrorText("User Not found, Please Sign Up.")
-                        }, 1000);
-                    }
-                } catch (e) {
-                    console.error("Error adding document: ", e);
-                    setTimeout(() => {
-                        setIsLoading(false);
-                        setErrorText(e.message.toString());
-                    }, 1000);
-                }
+                getUserIdAndRedirect(pin, "dashboard");
             }
         }
     }

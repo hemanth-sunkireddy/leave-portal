@@ -70,13 +70,20 @@ const SignupForm = () => {
         setErrorText("Please Fill your Password");
       }, 1000);
     }
+    else if (selectedUserType === '' || selectedUserType === "Select...") {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Select User Type");
+      }, 1000);
+    }
     else {
       const date = new Date();
       console.log("TODAY TIME: ", date);
       date.setMinutes(date.getMinutes() + 330);
       let isoString = date.toISOString();
       const randomString = generateRandomString(200);
-      console.log("RANDOM STRING: ", randomString); 
+      console.log("RANDOM STRING: ", randomString);
       const formData = {
         Name: name,
         Pin: pin,
