@@ -3,11 +3,11 @@ import { Metadata } from "next";
 import PrincipalPage from "@/components/PrincipalDashboard";
 
 export const metadata: Metadata = {
-  title: "Mentor Dashboard | Leave Management Loyola",
+  title: "Principal Dashboard | Leave Management Loyola",
   description: "This page is for Mentor Dashboard",
 };
 
-const MentorDashboard = () => {
+const PrincipalDashboard = () => {
   return (
     <>
       <Breadcrumb
@@ -19,4 +19,4 @@ const MentorDashboard = () => {
   );
 };
 
-export default MentorDashboard;
+export default PrincipalDashboard;

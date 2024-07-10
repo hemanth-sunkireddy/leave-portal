@@ -100,6 +100,28 @@ const SignInForm = () => {
                     }, 1000);
                 }
             }
+            else if (pin == 'Girlwarden') {
+                if (password == 'Girlwarden') {
+                    getUserIdAndRedirect(pin, "warden-dashboard");
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
+            else if (pin == 'Boywarden') {
+                if (password == 'Boywarden') {
+                    getUserIdAndRedirect(pin, "warden-dashboard");
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
             else if (pin == 'Mary') {
                 if (password == 'Mary') {
                     getUserIdAndRedirect(pin, "mentor-dashboard");
