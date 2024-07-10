@@ -150,7 +150,8 @@ const ApplyLeaveForm = () => {
         Status: "Applied",
         TotalDays: totalDays,
         Residence: residence,
-        ApplicationWith: applicationWith
+        ApplicationWith: applicationWith,
+        Gender: gender
       };
       try {
         const leaveRef = doc(db, "leaves", pin);
