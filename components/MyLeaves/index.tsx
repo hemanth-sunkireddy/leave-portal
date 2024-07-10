@@ -18,7 +18,7 @@ const MyLeaves = () => {
     const [pin, setPin] = useState('');
     const [errorText, setErrorText] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [myLeaves, setMyLeaves] = useState(false);
+    const [myLeaves, setMyLeaves] = useState(true);
     const [leaveData, setLeaveData] = useState(null);
 
     const app = initializeApp(firebaseConfig);
@@ -45,7 +45,7 @@ const MyLeaves = () => {
                     const userPin = pinDoc.data().Pin; // Adjust 'Pin' to match the field name in Firestore
                     setPin(userPin);
                 } else {
-                    throw new Error("PIN document not found.");
+                    setMyLeaves(false);
                 }
             } catch (error) {
                 console.error("Error fetching PIN document:", error);

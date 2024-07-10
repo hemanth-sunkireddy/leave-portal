@@ -130,13 +130,6 @@
           setErrorText("Please Select Your Residence type.");
         }, 1000);
       }
-      else if (pin === '') {
-
-        setTimeout(() => {
-          setIsLoading(false);
-          setErrorText("Please Enter your pin.");
-        }, 1000);
-      }
       else {
         const date = new Date();
         console.log("TODAY TIME: ", date);
