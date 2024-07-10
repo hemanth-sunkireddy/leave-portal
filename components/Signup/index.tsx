@@ -32,6 +32,19 @@ const SignupForm = () => {
   //   setSelectedUserType(event.target.value);
   // };
 
+  const generateRandomString = (length) => {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+  };
+
+
   const handleSubmit = async (event) => {
     setErrorText(null);
     event.preventDefault();
@@ -62,13 +75,16 @@ const SignupForm = () => {
       console.log("TODAY TIME: ", date);
       date.setMinutes(date.getMinutes() + 330);
       let isoString = date.toISOString();
+      const randomString = generateRandomString(200);
+      console.log("RANDOM STRING: ", randomString); 
       const formData = {
         Name: name,
         Pin: pin,
         Password: password,
         UserType: "Student",
         SignUpTime: isoString,
-        UsageCount: 1
+        UsageCount: 1,
+        UniqueID: randomString
       };
 
       try {
@@ -84,7 +100,7 @@ const SignupForm = () => {
           setErrorText("Registration Success. Redirecting to Sign In page...");
           setTimeout(() => {
             setIsLoading(false);
-            location.href = '/signin';
+            location.href = `/signin`;
           }, 1000);
           setIsLoading(false);
         }

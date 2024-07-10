@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { useSearchParams } from 'next/navigation';
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -17,7 +18,6 @@ const firebaseConfig = {
 
 const ApplyLeaveForm = () => {
   const [pin, setPin] = useState('');
-  const [password, setPassword] = useState("");
   const [mentor, setMentor] = useState('');
   const [reason, setReason] = useState('');
   const [parentMobile, setParentMobile] = useState('');
@@ -29,6 +29,47 @@ const ApplyLeaveForm = () => {
   const app = initializeApp(firebaseConfig);
 
   const db = getFirestore(app);
+
+  const searchParams = useSearchParams();
+  const [id, setId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setId(searchParams.get('userid'));
+    console.log("ID IN LEAVE: ", searchParams.get('userid'));
+  }, [searchParams]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userRef = collection(db, "authentication");
+      const q = query(userRef, where("UniqueID", "==", id));
+
+      try {
+        setIsLoading(true);
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          setErrorText("Error in Applying. Please sign in again.");
+          console.log("ERROR");
+        } else {
+          querySnapshot.forEach(doc => {
+            const userpin = doc.data().Pin;
+            console.log("ID OF USER: ", userpin);
+            setPin(userpin);
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching document:", error);
+        setErrorText("Error fetching data. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    console.log("PIN AFTER: ", id);
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
 
   const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -97,13 +138,6 @@ const ApplyLeaveForm = () => {
         setErrorText("Please Enter your pin.");
       }, 1000);
     }
-    else if (password === '') {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Fill  Password.");
-      }, 1000);
-    }
     else {
       const date = new Date();
       console.log("TODAY TIME: ", date);
@@ -111,7 +145,6 @@ const ApplyLeaveForm = () => {
       let isoString = date.toISOString();
       const formData = {
         Pin: pin,
-        Password: password,
         Reason: reason,
         ParentMobile: parentMobile,
         Mentor: mentor,
@@ -121,28 +154,13 @@ const ApplyLeaveForm = () => {
         Residence: residence,
       };
       try {
-
-        const docRef = doc(db, "authentication", pin);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const storedPassword = docSnap.data().Password;
-          if (storedPassword === password) {
-            const leaveRef = doc(db, "leaves", pin);
-            await setDoc(leaveRef, formData, { merge: true });
-            setErrorText('Application Success. Redirecting to My Leaves...');
-            setTimeout(() => {
-              location.href = '/my-leaves';
-              setIsLoading(false);
-            }, 1000);
-          } else {
-            setErrorText('Incorrect Password. Please check password.');
-            setIsLoading(false);
-          }
-        } else {
-          setErrorText("User Not Found. Please Check the entered pin.");
+        const leaveRef = doc(db, "leaves", pin);
+        await setDoc(leaveRef, formData, { merge: true });
+        setErrorText('Application Success. Redirecting to My Leaves...');
+        setTimeout(() => {
+          location.href = `/my-leaves/?userid=${id}`;
           setIsLoading(false);
-        }
+        }, 1000);
       } catch (error) {
         setTimeout(() => {
           setIsLoading(false);
@@ -271,38 +289,7 @@ const ApplyLeaveForm = () => {
                     <option value="Day Scholar">Day Scholar</option>
                   </select>
                 </div>
-                <div className="mb-8">
-                  <label
-                    htmlFor="userpin"
-                    className="mb-3 block text-sm text-dark dark:text-white"
-                  >
-                    {" "}
-                    Your Pin{" "}
-                  </label>
-                  <input
-                    type="text"
-                    name="userpin"
-                    placeholder="Enter your Pin Number"
-                    onChange={(e) => setPin(e.target.value)}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  />
-                </div>
-                <div className="mb-8">
-                  <label
-                    htmlFor="password"
-                    className="mb-3 block text-sm text-dark dark:text-white"
-                  >
-                    {" "}
-                    Password{" "}
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Enter your Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  />
-                </div>
+
                 <div className="mb-6">
                   <button type="submit" className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
                     {isLoading ? (

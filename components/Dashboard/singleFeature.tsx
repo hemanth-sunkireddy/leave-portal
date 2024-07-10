@@ -2,8 +2,7 @@
 import { Features } from "@/types/dashboard";
 import Image from "next/image";
 import Link from "next/link";
-const SingleFeature = ({ feature }: { feature: Features }) => {
-
+const SingleFeature = ({ feature, id }: { feature: Features; id: string }) => {
   const { title, image, paragraph, detail, redirectLink } = feature;
   return (
     <>
@@ -12,7 +11,7 @@ const SingleFeature = ({ feature }: { feature: Features }) => {
         data-wow-delay=".1s"
       >
         <Link
-          href={`/${redirectLink}`}
+          href={`/${redirectLink}/?userid=${id}`}
           className="relative block aspect-[37/22] w-full"
         >
           <Image src={image} alt="image" fill />
@@ -20,7 +19,7 @@ const SingleFeature = ({ feature }: { feature: Features }) => {
         <div className="p-6 sm:p-8 md:px-6 md:py-8 lg:p-8 xl:px-5 xl:py-8 2xl:p-8">
           <h3>
             <Link
-              href={`/${redirectLink}`}
+              href={`/${redirectLink}/?userid=${id}`}
               className="mb-4 block text-xl font-bold text-black hover:text-primary dark:text-white dark:hover:text-primary sm:text-2xl"
             >
               {title}
@@ -30,7 +29,7 @@ const SingleFeature = ({ feature }: { feature: Features }) => {
             {paragraph}
           </p>
           <div className="flex items-center">
-            <Link href={`${redirectLink}`}
+            <Link href={`${redirectLink}/?userid=${id}`}
               className="inline-block py-2 px-4 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-md transition duration-300">
               {detail}
             </Link>

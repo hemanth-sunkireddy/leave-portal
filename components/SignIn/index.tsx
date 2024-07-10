@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { PassThrough } from 'stream';
+import { useSearchParams } from 'next/navigation'
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -24,6 +24,7 @@ const SignInForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    
 
     const handleSubmit = async (event) => {
         setErrorText(null);
@@ -153,12 +154,13 @@ const SignInForm = () => {
                             date.setMinutes(date.getMinutes() + 330);
                             let isoString = date.toISOString();
                             let usageCount = docSnap.data().UsageCount || 0;
+                            const userID = docSnap.data().UniqueID || 0;
                             usageCount++;
                             await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
                             await setDoc(docRef, { SignUpTime: isoString }, { merge: true });
                             setErrorText('User Found. Redirecting to Dashboard...');
                             setTimeout(() => {
-                                location.href = '/dashboard';
+                                location.href = `/dashboard/?userid=${userID}`;
                                 setIsLoading(false);
                             }, 1000);
                         } else {

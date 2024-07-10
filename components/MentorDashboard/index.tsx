@@ -42,6 +42,7 @@ const MentorPage = () => {
                     setErrorText("No Student Applied For leave under you.");
                     setIsLoading(false);
                 } else {
+                    setErrorText("Students' leave requests are below under you.")
                     let leaves = [];
                     querySnapshot.forEach((doc) => {
                         leaves.push(doc.data());

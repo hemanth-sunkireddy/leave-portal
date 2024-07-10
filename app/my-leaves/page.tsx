@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import MyLeaves from "@/components/MyLeaves";
 
 export const metadata: Metadata = {
-  title: "Apply Leave | Leave Management Loyola",
+  title: "My Leaves | Leave Management Loyola",
   description: "This page is to check applied leave requests",
 };
 

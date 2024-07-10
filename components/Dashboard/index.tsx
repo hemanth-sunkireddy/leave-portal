@@ -1,21 +1,28 @@
+"use client";
 import SingleFeature from "./singleFeature";
 import featureData from "./studentFeatures";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
-const Blog = () => {
-  
+
+const HomeComponent = () => {
+  const searchParams = useSearchParams();
+  const [id, setId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setId(searchParams.get('userid'));
+  }, [searchParams]);
+
   return (
-    <section
-      id="blog"
-      className="bg-gray-light dark:bg-bg-color-dark py-16 md:py-20 lg:py-28"
-    >
+    <section className="pb-[120px] pt-[120px]">
       <div className="container">
-
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 xl:grid-cols-3">
+        <div className="-mx-4 flex flex-wrap justify-center bg-slate-100 dark:bg-purple-300">
           {featureData.map((feature) => (
-            <div key={feature.id} className="w-full">
-              <SingleFeature feature={feature} />
+            <div
+              key={feature.id}
+              className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
+            >
+              <SingleFeature feature={feature} id={id} />
             </div>
           ))}
         </div>
@@ -24,4 +31,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default HomeComponent;
