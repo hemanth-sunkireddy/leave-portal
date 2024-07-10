@@ -89,7 +89,18 @@ const SignInForm = () => {
             }, 1000);
         }
         else {
-            if (pin == 'Mary') {
+            if (pin == 'Principal') {
+                if (password == 'Principal') {
+                    getUserIdAndRedirect(pin, "principal-dashboard");
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 1000);
+                }
+            }
+            else if (pin == 'Mary') {
                 if (password == 'Mary') {
                     getUserIdAndRedirect(pin, "mentor-dashboard");
                 }
