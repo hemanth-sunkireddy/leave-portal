@@ -135,6 +135,10 @@ const MyLeaves = () => {
                                                 <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.Status}</td>
                                             </tr>
                                             <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Gender:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.Gender}</td>
+                                            </tr>
+                                            <tr>
                                                 <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Number of Days:</th>
                                                 <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leaveData.TotalDays}</td>
                                             </tr>
