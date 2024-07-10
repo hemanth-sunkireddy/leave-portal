@@ -16,7 +16,7 @@ const firebaseConfig = {
   measurementId: "G-VD1JVK0RN9"
 };
 
-const ApplyLeaveForm = () => {
+const FacultyApplyLeaveForm = () => {
   const [pin, setPin] = useState('');
   const [mentor, setMentor] = useState('');
   const [reason, setReason] = useState('');
@@ -98,7 +98,7 @@ const ApplyLeaveForm = () => {
     if (parentMobile === '') {
       setTimeout(() => {
         setIsLoading(false);
-        setErrorText("Please Fill your Parent Mobile Number.");
+        setErrorText("Please Fill your Mobile Number.");
       }, 1000);
     }
     else if (reason === '') {
@@ -115,27 +115,6 @@ const ApplyLeaveForm = () => {
         setErrorText("Please Enter Total number of Days for Leave.");
       }, 1000);
     }
-    else if (mentor === '' || mentor === "Select...") {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Select Your Mentor.");
-      }, 1000);
-    }
-    else if (gender === '' || gender === "Select...") {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Select Your Gender.");
-      }, 1000);
-    }
-    else if (residence === '' || residence === "Select...") {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Select Your Residence type.");
-      }, 1000);
-    }
     else {
       const date = new Date();
       console.log("TODAY TIME: ", date);
@@ -145,21 +124,18 @@ const ApplyLeaveForm = () => {
         Pin: pin,
         Reason: reason,
         ParentMobile: parentMobile,
-        Mentor: mentor,
         ApplicationTime: isoString,
         Status: "Applied",
         TotalDays: totalDays,
-        Residence: residence,
-        ApplicationWith: applicationWith,
-        Gender: gender,
-        UserType: "Student"
+        ApplicationWith: "Principal",
+        UserType: "Faculty"
       };
       try {
         const leaveRef = doc(db, "leaves", pin);
         await setDoc(leaveRef, formData, { merge: true });
         setErrorText('Application Success. Redirecting to My Leaves...');
         setTimeout(() => {
-          location.href = `/my-leaves/?userid=${id}`;
+          location.href = `/faculty-my-leaves/?userid=${id}`;
           setIsLoading(false);
         }, 1000);
       } catch (error) {
@@ -215,17 +191,17 @@ const ApplyLeaveForm = () => {
                     className="mb-3 block text-sm text-dark dark:text-white"
                   >
                     {" "}
-                    Parent Mobile{" "}
+                    Mobile Number{" "}
                   </label>
                   <input
                     type="mobile"
                     name="mobile"
-                    placeholder="Enter your Parent Mobile Number"
+                    placeholder="Enter your Mobile Number"
                     onChange={(e) => setParentMobile(e.target.value)}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                <div className="mb-8">
+                {/* <div className="mb-8">
                   <label htmlFor="mentor" className="block text-sm text-dark dark:text-white mb-3">
                     Select Mentor
                   </label>
@@ -243,7 +219,7 @@ const ApplyLeaveForm = () => {
                     <option value="Bhanu">Bhanu</option>
                     <option value="Veeranjaneyulu">Veeranjaneyulu</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="mb-8">
                   <label
                     htmlFor="days"
@@ -260,7 +236,7 @@ const ApplyLeaveForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                <div className="mb-8">
+                {/* <div className="mb-8">
                   <label htmlFor="gender" className="block text-sm text-dark dark:text-white mb-3">
                     Select Your Gender
                   </label>
@@ -274,8 +250,8 @@ const ApplyLeaveForm = () => {
                     <option value="Girl">Girl</option>
                     <option value="Boy">Boy</option>
                   </select>
-                </div>
-                <div className="mb-8">
+                </div> */}
+                {/* <div className="mb-8">
                   <label htmlFor="residence" className="block text-sm text-dark dark:text-white mb-3">
                     Select Your Residence type
                   </label>
@@ -289,7 +265,7 @@ const ApplyLeaveForm = () => {
                     <option value="Hostel">Hosteler</option>
                     <option value="Day Scholar">Day Scholar</option>
                   </select>
-                </div>
+                </div> */}
 
                 <div className="mb-6">
                   <button type="submit" className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
@@ -373,4 +349,4 @@ const ApplyLeaveForm = () => {
     </section>
   );
 };
-export default ApplyLeaveForm;
+export default FacultyApplyLeaveForm;
