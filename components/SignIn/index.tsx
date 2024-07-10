@@ -106,8 +106,8 @@ const SignInForm = () => {
                     }, 1000);
                 }
             }
-            else if (pin == 'Girlwarden') {
-                if (password == 'Girlwarden') {
+            else if (pin == 'NirmalaGirlsHostel') {
+                if (password == 'Nirmala Girls Hostel') {
                     getUserIdAndRedirect(pin, "warden-dashboard");
                 }
                 else {
@@ -117,8 +117,8 @@ const SignInForm = () => {
                     }, 1000);
                 }
             }
-            else if (pin == 'Boywarden') {
-                if (password == 'Boywarden') {
+            else if (pin == 'SowrinathaSwamyHostel') {
+                if (password == 'Sowrinatha Swamy Hostel') {
                     getUserIdAndRedirect(pin, "warden-dashboard");
                 }
                 else {

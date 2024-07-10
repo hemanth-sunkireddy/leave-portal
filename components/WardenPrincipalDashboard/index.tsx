@@ -62,14 +62,17 @@ const WardenPrincipalPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (!pin) return;
-            if(pin == "Boywarden") setGender("Boy");
+            if(pin == "SowrinathaSwamyHostel") setGender("Boy");
             else setGender("Girl");
         };
 
         const getLeave = async() =>{
             try {
                 const leavesRef = collection(db, "leaves");
-                const q = query(leavesRef, where("Gender", "==", gender));
+                const q = query(leavesRef,
+                    where("Gender", "==", gender),
+                    where("TotalDays", "in", ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]),
+                );
                 console.log("GENDER: ", gender);
                 console.log("PIN: ", pin);
                 const querySnapshot = await getDocs(q);

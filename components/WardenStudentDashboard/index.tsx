@@ -62,20 +62,25 @@ const WardenStudentPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (!pin) return;
-            if(pin == "Boywarden") setGender("Boy");
+            if(pin == "SowrinathaSwamyHostel") setGender("Boy");
             else setGender("Girl");
         };
 
         const getLeave = async() =>{
             try {
                 const leavesRef = collection(db, "leaves");
-                const q = query(leavesRef, where("Gender", "==", gender));
+                const q = query(leavesRef,
+                    where("Gender", "==", gender),
+                    where("TotalDays", "in", ["1", "2"])
+                );
+                             
+                
                 console.log("GENDER: ", gender);
                 console.log("PIN: ", pin);
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    setErrorText("No Student Applied For leave.");
+                    setErrorText("No Student Applied For leave For Less than 3 Days.");
                     setIsLoading(false);
                 } else {
                     setErrorText("Student's Leave requests are below.")
