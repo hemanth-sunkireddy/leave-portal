@@ -138,6 +138,10 @@ const MentorPage = () => {
                                                         <th className="py-2 px-4 border-b border-lime-500 dark:border-lime-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-lime-500 dark:border-lime-600">{leave.Status}</td>
                                                     </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-lime-500 dark:border-lime-600 font-semibold">Total Days:</th>
+                                                        <td className="py-2 px-4 border-b border-lime-500 dark:border-lime-600">{leave.TotalDays}</td>
+                                                    </tr>
                                                 </React.Fragment>
                                             ))}
                                         </tbody>

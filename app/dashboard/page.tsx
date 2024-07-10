@@ -16,7 +16,7 @@ const Dashboard = () => {
     <>
       <Breadcrumb
         pageName="Dashboard"
-        description="Welcome User, Click below to apply leave or see past requests."
+        description="Hi Student, Click below to apply leave or see past requests."
       />
       <HomeComponent />
     </>

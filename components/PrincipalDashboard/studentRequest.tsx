@@ -63,7 +63,7 @@ const PrincipalStudentPage = () => {
 
             try {
                 const leavesRef = collection(db, "leaves");
-                const q = query(leavesRef, where("ApplicationWith", "==", pin));
+                const q = query(leavesRef, where("UserType", "==", "Student" ));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
