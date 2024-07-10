@@ -204,7 +204,7 @@ const SignupForm = () => {
                   >
                     <option value="">Select...</option>
                     <option value="Student">Student</option>
-                    <option value="Facutly">Faculty</option>
+                    <option value="Faculty">Faculty</option>
                   </select>
                   {selectedUserType && (
                     <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">

@@ -21,6 +21,7 @@ const firebaseConfig = {
 const SignInForm = () => {
     const [pin, setPin] = useState('');
     const [password, setPassword] = useState('');
+    const [route, setRoute] = useState("");
     const [errorText, setErrorText] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const app = initializeApp(firebaseConfig);
@@ -41,6 +42,11 @@ const SignInForm = () => {
                     let isoString = date.toISOString();
                     let usageCount = docSnap.data().UsageCount || 0;
                     const userID = docSnap.data().UniqueID || 0;
+                    const userType = await docSnap.data().UserType || "";
+                    console.log("USER TYPE: ", userType);
+                    if(userType === "Faculty") {
+                        route = "faculty-dashboard";
+                    }
                     usageCount++;
                     await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
                     await setDoc(docRef, { SignUpTime: isoString }, { merge: true });
