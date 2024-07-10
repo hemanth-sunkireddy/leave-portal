@@ -49,8 +49,7 @@
           const querySnapshot = await getDocs(q);
 
           if (querySnapshot.empty) {
-            setErrorText("Error in Applying. Please sign in again.");
-            console.log("ERROR");
+            console.log("ERROR"); // WIll handle this later
           } else {
             querySnapshot.forEach(doc => {
               const userpin = doc.data().Pin;
