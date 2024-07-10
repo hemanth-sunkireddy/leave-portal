@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, updateDoc } from "firebase/firestore";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { useSearchParams } from 'next/navigation';
 
@@ -73,7 +73,7 @@ const PrincipalStudentPage = () => {
                     setErrorText("Students/Faculty leave requests are below.")
                     let leaves = [];
                     querySnapshot.forEach((doc) => {
-                        leaves.push(doc.data());
+                        leaves.push({ id: doc.id, ...doc.data() });
                     });
                     setLeaveData(leaves);
                 }
@@ -87,6 +87,22 @@ const PrincipalStudentPage = () => {
 
         fetchData();
     }, [pin, db]);
+
+
+    const handleStatusChange = async (index, newStatus) => {
+        try {
+            // Update the status in the local state first
+            const updatedLeaveData = [...leaveData];
+            updatedLeaveData[index].Status = newStatus;
+            setLeaveData(updatedLeaveData);
+
+            // Update the status in Firestore
+            const leaveDocRef = doc(db, 'leaves', leaveData[index].id);
+            await updateDoc(leaveDocRef, { Status: newStatus });
+        } catch (error) {
+            console.error('Error updating status:', error);
+        }
+    };
 
 
     useEffect(() =>{
@@ -135,8 +151,18 @@ const PrincipalStudentPage = () => {
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th className="py-2 px-4 border-b border-lime-500 dark:border-lime-600 font-semibold">Status:</th>
-                                                        <td className="py-2 px-4 border-b border-lime-500 dark:border-lime-600">{leave.Status}</td>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
+                                                            <select
+                                                                value={leave.Status}
+                                                                onChange={(e) => handleStatusChange(index, e.target.value)}
+                                                                className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+                                                            >
+                                                                <option value="Applied">Applied</option>
+                                                                <option value="Accepted">Accepted</option>
+                                                                <option value="Rejected">Rejected</option>
+                                                            </select>
+                                                        </td>
                                                     </tr>
                                                 </React.Fragment>
                                             ))}
