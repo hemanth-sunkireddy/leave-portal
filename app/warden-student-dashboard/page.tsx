@@ -1,22 +1,22 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { Metadata } from "next";
-import WardenHomeComponent from "@/components/WardenDashboard";
+import WardenStudentPage from "@/components/WardenStudentDashboard";
 
 export const metadata: Metadata = {
   title: "Warden Dashboard | Leave Management Loyola",
   description: "This page is for Warden Dashboard",
 };
 
-const WardenDashboard = () => {
+const WardenStudentDashboard = () => {
   return (
     <>
       <Breadcrumb
         pageName="Hi Warden"
-        description="View your Students applied leave requests and Please approve/reject them."
+        description="View your Students applied leave requests for less than 2 days and Please approve/reject them."
       />
-      <WardenHomeComponent />
+      <WardenStudentPage />
     </>
   );
 };
 
-export default WardenDashboard;
+export default WardenStudentDashboard;
