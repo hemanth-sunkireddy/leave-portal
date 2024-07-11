@@ -120,6 +120,7 @@ const FacultyApplyLeaveForm = () => {
       console.log("TODAY TIME: ", date);
       date.setMinutes(date.getMinutes() + 330);
       let isoString = date.toISOString();
+      const documentName = `${pin}_${isoString}`;
       const formData = {
         Pin: pin,
         Reason: reason,
@@ -131,7 +132,7 @@ const FacultyApplyLeaveForm = () => {
         UserType: "Faculty"
       };
       try {
-        const leaveRef = doc(db, "leaves", pin);
+        const leaveRef = doc(db, "leaves", documentName);
         await setDoc(leaveRef, formData, { merge: true });
         setErrorText('Application Success. Redirecting to My Leaves...');
         setTimeout(() => {
