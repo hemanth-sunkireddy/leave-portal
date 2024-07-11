@@ -42,7 +42,6 @@ const ApplyLeaveForm = () => {
   useEffect(() => {
     const totalDaysInt = parseInt(totalDays);
     console.log(totalDaysInt);
-    console.l
     if (totalDaysInt > 2) setApplicationWith("Principal");
   }, [totalDays])
 
