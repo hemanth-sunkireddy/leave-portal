@@ -151,6 +151,10 @@ const PrincipalStudentPage = () => {
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
                                                     </tr>
                                                     <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence Type:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">
                                                             <select

@@ -129,8 +129,8 @@ const PrincipalFacultyPage = () => {
                                             {leaveData.map((leave, index) => (
                                                 <React.Fragment key={index}>
                                                     <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                                        <th className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
+                                                        <td className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                                                     </tr>
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
@@ -140,10 +140,7 @@ const PrincipalFacultyPage = () => {
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
-                                                    </tr>
+                                                    
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
@@ -157,6 +154,10 @@ const PrincipalFacultyPage = () => {
                                                                 <option value="Rejected">Rejected</option>
                                                             </select>
                                                         </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time:</th>
+                                                        <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">{leave.ApplicationTime}</td>
                                                     </tr>
                                                 </React.Fragment>
                                             ))}
