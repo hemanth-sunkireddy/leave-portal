@@ -67,10 +67,10 @@ const PrincipalStudentPage = () => {
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    setErrorText("No Student/Faculty Applied For leave.");
+                    setErrorText("No Student Applied For leave.");
                     setIsLoading(false);
                 } else {
-                    setErrorText("Students/Faculty leave requests are below.")
+                    setErrorText("Students leave requests are below.")
                     let leaves = [];
                     querySnapshot.forEach((doc) => {
                         leaves.push({ id: doc.id, ...doc.data() });
@@ -130,9 +130,9 @@ const PrincipalStudentPage = () => {
                                         <tbody>
                                             {leaveData.map((leave, index) => (
                                                 <React.Fragment key={index}>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                                    <tr className=''>
+                                                        <th className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
+                                                        <td className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                                                     </tr>
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
@@ -151,8 +151,8 @@ const PrincipalStudentPage = () => {
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
+                                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status:</th>
+                                                        <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">
                                                             <select
                                                                 value={leave.Status}
                                                                 onChange={(e) => handleStatusChange(index, e.target.value)}
@@ -167,9 +167,9 @@ const PrincipalStudentPage = () => {
                                                 </React.Fragment>
                                             ))}
                                         </tbody>
-
                                     </table>
                                 </div>
+                                
                             )}
 
                         </div>

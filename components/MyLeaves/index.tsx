@@ -101,35 +101,44 @@ const MyLeaves = () => {
                 </p>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full bg-white dark:bg-dark border-gray-200 dark:border-gray-600">
-                    <thead>
-                      <tr>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application With</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Gender</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Number of Days</th>
-                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence type</th>
-                      </tr>
-                    </thead>
+                  <table className="min-w-full bg-white dark:bg-dark border  border-lime-600 dark:border-gray-600">
                     <tbody>
                       {leaveRequests.map((leave, index) => (
-                        <tr key={index}>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationWith}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Gender}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
-                          <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
-                        </tr>
+                        <React.Fragment key={index}>
+                          <tr>
+                            <th className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
+                            <td className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application With:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationWith}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time:</th>
+                            <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">{leave.ApplicationTime}</td>
+                          </tr>
+
+                        </React.Fragment>
                       ))}
                     </tbody>
                   </table>
