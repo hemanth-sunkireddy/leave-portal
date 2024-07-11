@@ -41,6 +41,8 @@ const ApplyLeaveForm = () => {
 
   useEffect(() => {
     const totalDaysInt = parseInt(totalDays);
+    console.log(totalDaysInt);
+    console.l
     if (totalDaysInt > 2) setApplicationWith("Principal");
   }, [totalDays])
 
@@ -142,6 +144,7 @@ const ApplyLeaveForm = () => {
       date.setMinutes(date.getMinutes() + 330);
       let isoString = date.toISOString();
       const documentName = `${pin}_${isoString}`;
+      console.log(applicationWith);
       const formData = {
         Pin: pin,
         Reason: reason,

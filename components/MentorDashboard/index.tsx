@@ -105,8 +105,8 @@ const MentorPage = () => {
     };
 
 
-    useEffect(() =>{
-        if(leaveData) setIsLoading(false);
+    useEffect(() => {
+        if (leaveData) setIsLoading(false);
     }, [leaveData]);
 
     return (
@@ -155,17 +155,31 @@ const MentorPage = () => {
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
                                                     </tr>
                                                     <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application With:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationWith}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">
-                                                            <select
-                                                                value={leave.Status}
-                                                                onChange={(e) => handleStatusChange(index, e.target.value)}
-                                                                className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
-                                                            >
-                                                                <option value="Applied">Applied</option>
-                                                                <option value="Accepted">Accepted</option>
-                                                                <option value="Rejected">Rejected</option>
-                                                            </select>
+                                                            {leave.ApplicationWith === "Warden" ? (
+                                                                // Display only if ApplicationWith is Principal
+                                                                <select
+                                                                    value={leave.Status}
+                                                                    onChange={(e) => handleStatusChange(index, e.target.value)}
+                                                                    className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+                                                                >
+                                                                    <option value="Applied">Applied</option>
+                                                                    <option value="Accepted">Accepted</option>
+                                                                    <option value="Rejected">Rejected</option>
+                                                                </select>
+                                                            ) : (
+                                                                // Display different options if ApplicationWith is not Principal
+                                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
+                                                            )}
                                                         </td>
                                                     </tr>
                                                 </React.Fragment>
@@ -173,7 +187,7 @@ const MentorPage = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                
+
                             )}
 
                         </div>
