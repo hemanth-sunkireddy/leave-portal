@@ -63,16 +63,20 @@ const WardenStudentPage = () => {
         const fetchData = async () => {
             if (!pin) return;
             if (pin == "SowrinathaSwamyHostel") setGender("Boy");
+            
             else setGender("Girl");
+            console.log(pin);
         };
 
         const getLeave = async () => {
             try {
                 const leavesRef = collection(db, "leaves");
+                console.log(gender);
                 const q = query(leavesRef,
-                    where("Gender", "==", gender),
-                    where("TotalDays", "in", ["1", "2"]),
                     where("Residence", "==", "Hostel"),
+
+                    where("TotalDays", "in", ["1", "2"]),
+                    where("Gender", "==", gender),
                     where("Status", "in", ["Accepted", "Rejected"])
                 );
                 const querySnapshot = await getDocs(q);

@@ -132,7 +132,7 @@ const MyLeaves = () => {
                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
                           </tr>
                           <tr>
-                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile:</th>
                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                           </tr>
                           <tr>

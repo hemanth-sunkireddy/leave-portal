@@ -143,7 +143,7 @@ const PrincipalFacultyPage = () => {
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                                                     </tr>
                                                     <tr>
@@ -201,7 +201,7 @@ const PrincipalFacultyPage = () => {
                                     <tr>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days</th>
