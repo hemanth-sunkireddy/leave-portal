@@ -22,6 +22,7 @@ const WardenStudentPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [leaveData, setLeaveData] = useState([]);
     const [gender, setGender] = useState("");
+    const [isMobileView, setIsMobileView] = useState(true);
     const db = getFirestore(app);
 
     const searchParams = useSearchParams();
@@ -61,11 +62,11 @@ const WardenStudentPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (!pin) return;
-            if(pin == "SowrinathaSwamyHostel") setGender("Boy");
+            if (pin == "SowrinathaSwamyHostel") setGender("Boy");
             else setGender("Girl");
         };
 
-        const getLeave = async() =>{
+        const getLeave = async () => {
             try {
                 const leavesRef = collection(db, "leaves");
                 const q = query(leavesRef,
@@ -97,8 +98,25 @@ const WardenStudentPage = () => {
         }
 
         fetchData();
-        if(gender != '')getLeave();
+        if (gender != '') getLeave();
     }, [pin, db, gender]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth < 900); // Update isMobileView based on window width
+        };
+
+        // Initial check on component mount
+        setIsMobileView(window.innerWidth < 900);
+
+        // Event listener to update on window resize
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
 
 
@@ -118,11 +136,11 @@ const WardenStudentPage = () => {
     };
 
 
-    useEffect(() =>{
-        if(leaveData) setIsLoading(false);
+    useEffect(() => {
+        if (leaveData) setIsLoading(false);
     }, [leaveData]);
 
-    return (
+    const mobileView = (
         <section className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
             <div className="container">
                 <div className="-mx-4 flex flex-wrap">
@@ -190,7 +208,7 @@ const WardenStudentPage = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                
+
                             )}
 
                         </div>
@@ -199,5 +217,80 @@ const WardenStudentPage = () => {
             </div>
         </section>
     );
+
+    const desktopView = (
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+            <div className="w-full max-w-fit mx-auto">
+                <div className="shadow-three bg-white rounded-lg px-6 py-10 dark:bg-dark sm:p-8">
+                    {errorText && (
+                        <p className="mt-2 text-sm text-red-600 font-bold text-center">
+                            {errorText}
+                        </p>
+                    )}
+                    {isLoading ? (
+                        <p className="mt-2 text-sm text-lime-600 font-bold text-center">
+                            Loading...
+                        </p>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full bg-white dark:bg-dark border  border-lime-600 dark:border-gray-600">
+                                <tbody>
+                                    {leaveData.map((leave, index) => (
+                                        <React.Fragment key={index}>
+                                            <tr className=''>
+                                                <th className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
+                                                <td className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence Type:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status:</th>
+                                                <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">
+                                                    <select
+                                                        value={leave.Status}
+                                                        onChange={(e) => handleStatusChange(index, e.target.value)}
+                                                        className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+                                                    >
+                                                        <option value="Applied">Applied</option>
+                                                        <option value="Accepted">Accepted</option>
+                                                        <option value="Rejected">Rejected</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </React.Fragment>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    )}
+
+                </div>
+            </div>
+        </div>
+    );
+    return isMobileView ? mobileView : desktopView;
 };
 export default WardenStudentPage;
