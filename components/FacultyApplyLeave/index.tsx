@@ -26,6 +26,7 @@ const FacultyApplyLeaveForm = () => {
   const [residence, setResidence] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [fromDate, setFromDate] = useState('');
   const [applicationWith, setApplicationWith] = useState("Warden");
   const app = initializeApp(firebaseConfig);
 
@@ -77,18 +78,7 @@ const FacultyApplyLeaveForm = () => {
   }, [id]);
 
 
-  const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setMentor(event.target.value);
-  };
-
-  const handleGender = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGender(event.target.value);
-  };
-
-  const handleResidence = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setResidence(event.target.value);
-  };
-
+ 
   const handleSubmit = async (event) => {
 
     setErrorText(null);
@@ -115,6 +105,13 @@ const FacultyApplyLeaveForm = () => {
         setErrorText("Please Enter Total number of Days for Leave.");
       }, 1000);
     }
+    else if (fromDate === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Enter Leave Start Date.");
+      }, 1000);
+    }
     else {
       const date = new Date();
       console.log("TODAY TIME: ", date);
@@ -129,6 +126,7 @@ const FacultyApplyLeaveForm = () => {
         Status: "Applied",
         TotalDays: totalDays,
         ApplicationWith: "Principal",
+        FromDate: fromDate,
         UserType: "Faculty"
       };
       try {
@@ -202,25 +200,22 @@ const FacultyApplyLeaveForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                {/* <div className="mb-8">
-                  <label htmlFor="mentor" className="block text-sm text-dark dark:text-white mb-3">
-                    Select Mentor
-                  </label>
-                  <select
-                    id="mentor"
-                    name="mentor"
-                    onChange={handleUserTypeChange}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                <div className="mb-8">
+                  <label
+                    htmlFor="fromDate"
+                    className="mb-3 block text-sm text-dark dark:text-white"
                   >
-                    <option value="">Select...</option>
-                    <option value="Mary">Mary</option>
-                    <option value="Ashok">Ashok</option>
-                    <option value="Aruna">Aruna</option>
-                    <option value="Ramana">Ramana</option>
-                    <option value="Bhanu">Bhanu</option>
-                    <option value="Veeranjaneyulu">Veeranjaneyulu</option>
-                  </select>
-                </div> */}
+                    {" "}
+                    Leave Start Date{" "}
+                  </label>
+                  <input
+                    type="text"
+                    name="fromDate"
+                    placeholder="Enter in DD-MM-YYYY"
+                    onChange={(e) => setFromDate(e.target.value)}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  />
+                </div>
                 <div className="mb-8">
                   <label
                     htmlFor="days"

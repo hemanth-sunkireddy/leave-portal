@@ -24,6 +24,7 @@ const ApplyLeaveForm = () => {
   const [totalDays, setTotalDays] = useState('');
   const [gender, setGender] = useState('');
   const [residence, setResidence] = useState('');
+  const [fromDate, setFromDate] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [applicationWith, setApplicationWith] = useState("Warden");
@@ -137,6 +138,13 @@ const ApplyLeaveForm = () => {
         setErrorText("Please Select Your Residence type.");
       }, 1000);
     }
+    else if (fromDate === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Enter your Leave Start Date.");
+      }, 1000);
+    }
     else {
       const date = new Date();
       console.log("TODAY TIME: ", date);
@@ -155,6 +163,7 @@ const ApplyLeaveForm = () => {
         Residence: residence,
         ApplicationWith: applicationWith,
         Gender: gender,
+        FromDate: fromDate,
         UserType: "Student"
       };
       try {
@@ -246,6 +255,22 @@ const ApplyLeaveForm = () => {
                     <option value="Bhanu">Bhanu</option>
                     <option value="Veeranjaneyulu">Veeranjaneyulu</option>
                   </select>
+                </div>
+                <div className="mb-8">
+                  <label
+                    htmlFor="fromDate"
+                    className="mb-3 block text-sm text-dark dark:text-white"
+                  >
+                    {" "}
+                    Leave Start Date{" "}
+                  </label>
+                  <input
+                    type="text"
+                    name="fromDate"
+                    placeholder="Enter in DD-MM-YYYY"
+                    onChange={(e) => setFromDate(e.target.value)}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  />
                 </div>
                 <div className="mb-8">
                   <label
