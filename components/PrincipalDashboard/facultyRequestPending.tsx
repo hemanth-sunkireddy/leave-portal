@@ -21,6 +21,7 @@ const PrincipalFacultyPendingPage = () => {
     const [errorText, setErrorText] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [leaveData, setLeaveData] = useState([]);
+    const [isMobileView, setIsMobileView] = useState(true);
     const db = getFirestore(app);
 
     const searchParams = useSearchParams();
@@ -64,7 +65,7 @@ const PrincipalFacultyPendingPage = () => {
             try {
                 const leavesRef = collection(db, "leaves");
                 const q = query(leavesRef, where("UserType", "==", "Faculty")
-            , where("Status", "==", "Applied"));
+                    , where("Status", "==", "Applied"));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
@@ -105,10 +106,27 @@ const PrincipalFacultyPendingPage = () => {
     };
 
     useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth < 900); // Update isMobileView based on window width
+        };
+
+        // Initial check on component mount
+        setIsMobileView(window.innerWidth < 900);
+
+        // Event listener to update on window resize
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
         if (leaveData) setIsLoading(false);
     }, [leaveData]);
 
-    return (
+    const mobileView = (
         <section className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
             <div className="container">
                 <div className="-mx-4 flex flex-wrap">
@@ -141,7 +159,7 @@ const PrincipalFacultyPendingPage = () => {
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                                                     </tr>
-                                                    
+
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
@@ -172,64 +190,72 @@ const PrincipalFacultyPendingPage = () => {
                     </div>
                 </div>
             </div>
-            <div className="absolute left-0 top-0 z-[-1]">
-                <svg
-                    width="1440"
-                    height="969"
-                    viewBox="0 0 1440 969"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <mask
-                        id="mask0_95:1005"
-                        style={{ maskType: "alpha" }}
-                        maskUnits="userSpaceOnUse"
-                        x="0"
-                        y="0"
-                        width="1440"
-                        height="969"
-                    >
-                        <rect width="1440" height="969" fill="#090E34" />
-                    </mask>
-                    <g mask="url(#mask0_95:1005)">
-                        <path
-                            opacity="0.1"
-                            d="M1086.96 297.978L632.959 554.978L935.625 535.926L1086.96 297.978Z"
-                            fill="url(#paint0_linear_95:1005)"
-                        />
-                        <path
-                            opacity="0.1"
-                            d="M1324.5 755.5L1450 687V886.5L1324.5 967.5L-10 288L1324.5 755.5Z"
-                            fill="url(#paint1_linear_95:1005)"
-                        />
-                    </g>
-                    <defs>
-                        <linearGradient
-                            id="paint0_linear_95:1005"
-                            x1="1178.4"
-                            y1="151.853"
-                            x2="780.959"
-                            y2="453.581"
-                            gradientUnits="userSpaceOnUse"
-                        >
-                            <stop stopColor="#4A6CF7" />
-                            <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-                        </linearGradient>
-                        <linearGradient
-                            id="paint1_linear_95:1005"
-                            x1="160.5"
-                            y1="220"
-                            x2="1099.45"
-                            y2="1192.04"
-                            gradientUnits="userSpaceOnUse"
-                        >
-                            <stop stopColor="#4A6CF7" />
-                            <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
         </section>
     );
+
+    const desktopView = (
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+            <div className="w-full max-w-fit mx-auto">
+                <div className="shadow-three bg-white rounded-lg px-6 py-10 dark:bg-dark sm:p-8">
+                    {errorText && (
+                        <p className="mt-2 text-sm text-red-600 font-bold text-center">
+                            {errorText}
+                        </p>
+                    )}
+                    {isLoading ? (
+                        <p className="mt-2 text-sm text-lime-600 font-bold text-center">
+                            Loading...
+                        </p>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full bg-white dark:bg-dark border  border-lime-600 dark:border-gray-600">
+                                <tbody>
+                                    {leaveData.map((leave, index) => (
+                                        <React.Fragment key={index}>
+                                            <tr>
+                                                <th className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
+                                                <td className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
+                                                <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
+                                                    <select
+                                                        value={leave.Status}
+                                                        onChange={(e) => handleStatusChange(index, e.target.value)}
+                                                        className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+                                                    >
+                                                        <option value="Applied">Applied</option>
+                                                        <option value="Accepted">Accepted</option>
+                                                        <option value="Rejected">Rejected</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time:</th>
+                                                <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">{leave.ApplicationTime}</td>
+                                            </tr>
+                                        </React.Fragment>
+                                    ))}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    )}
+
+                </div>
+            </div>
+        </div>
+    );
+
+    return isMobileView ? mobileView : desktopView;
 };
 export default PrincipalFacultyPendingPage;
