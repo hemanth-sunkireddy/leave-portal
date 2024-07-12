@@ -114,15 +114,16 @@ const FacultyApplyLeaveForm = () => {
     }
     else {
       const date = new Date();
-      console.log("TODAY TIME: ", date);
       date.setMinutes(date.getMinutes() + 330);
-      let isoString = date.toISOString();
-      const documentName = `${pin}_${isoString}`;
+      const isoString = date.toISOString();
+      const isoDate = isoString.split('T')[0]; 
+      const isoTime = isoString.split('T')[1].split('.')[0]; 
+      const documentName = `${pin}_${isoDate} ${isoTime}`;
       const formData = {
         Pin: pin,
         Reason: reason,
         ParentMobile: parentMobile,
-        ApplicationTime: isoString,
+        ApplicationTime: `${isoDate} ${isoTime}`,
         Status: "Applied",
         TotalDays: totalDays,
         ApplicationWith: "Principal",
