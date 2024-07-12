@@ -171,7 +171,7 @@ const MyLeaves = () => {
 
   const desktopView = (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="w-full max-w-5xl mx-auto">
+      <div className="w-full max-w-fit mx-auto">
         <div className="shadow-three bg-white rounded-lg px-6 py-10 dark:bg-dark sm:p-8">
           {errorText && (
             <p className="mt-2 text-sm text-red-600 font-bold text-center">
@@ -189,8 +189,7 @@ const MyLeaves = () => {
                   <tr>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Pin</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Reason</th>
-                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Parent Mobile</th>
-                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Mentor</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Mobile</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Total Days</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Application With</th>
@@ -203,7 +202,6 @@ const MyLeaves = () => {
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationWith}</td>

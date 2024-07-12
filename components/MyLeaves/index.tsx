@@ -171,7 +171,7 @@ const MyLeaves = () => {
 
   const desktopView = (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="w-full max-w-5xl mx-auto">
+      <div className="w-full max-w-fit mx-auto">
         <div className="shadow-three bg-white rounded-lg px-6 py-10 dark:bg-dark sm:p-8">
           {errorText && (
             <p className="mt-2 text-sm text-red-600 font-bold text-center">
