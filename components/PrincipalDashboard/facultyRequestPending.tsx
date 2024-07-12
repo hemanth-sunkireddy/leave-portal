@@ -15,7 +15,7 @@ const firebaseConfig = {
     measurementId: "G-VD1JVK0RN9"
 };
 
-const PrincipalStudentPage = () => {
+const PrincipalFacultyPendingPage = () => {
     const [pin, setPin] = useState('');
     const app = initializeApp(firebaseConfig);
     const [errorText, setErrorText] = useState('');
@@ -63,15 +63,15 @@ const PrincipalStudentPage = () => {
 
             try {
                 const leavesRef = collection(db, "leaves");
-                const q = query(leavesRef, where("UserType", "==", "Student" )
-            , where("Status", "in", ["Accepted", "Rejected"]));
+                const q = query(leavesRef, where("UserType", "==", "Faculty")
+            , where("Status", "==", "Applied"));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    setErrorText("Leave Requests Empty. No students Leave requests were approved/rejected.");
+                    setErrorText("No Pending Faculty Applied For leave.");
                     setIsLoading(false);
                 } else {
-                    setErrorText("Students leave requests are below.")
+                    setErrorText("Faculty leave requests are below.")
                     let leaves = [];
                     querySnapshot.forEach((doc) => {
                         leaves.push({ id: doc.id, ...doc.data() });
@@ -89,7 +89,6 @@ const PrincipalStudentPage = () => {
         fetchData();
     }, [pin, db]);
 
-
     const handleStatusChange = async (index, newStatus) => {
         try {
             // Update the status in the local state first
@@ -105,9 +104,8 @@ const PrincipalStudentPage = () => {
         }
     };
 
-
-    useEffect(() =>{
-        if(leaveData) setIsLoading(false);
+    useEffect(() => {
+        if (leaveData) setIsLoading(false);
     }, [leaveData]);
 
     return (
@@ -131,9 +129,9 @@ const PrincipalStudentPage = () => {
                                         <tbody>
                                             {leaveData.map((leave, index) => (
                                                 <React.Fragment key={index}>
-                                                    <tr className=''>
-                                                        <th className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
-                                                        <td className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                                    <tr>
+                                                        <th className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
+                                                        <td className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                                                     </tr>
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
@@ -143,30 +141,31 @@ const PrincipalStudentPage = () => {
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                                                     </tr>
+                                                    
                                                     <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence Type:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status:</th>
-                                                        <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">
-                                                            {leave.Status}
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
+                                                            <select
+                                                                value={leave.Status}
+                                                                onChange={(e) => handleStatusChange(index, e.target.value)}
+                                                                className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+                                                            >
+                                                                <option value="Applied">Applied</option>
+                                                                <option value="Accepted">Accepted</option>
+                                                                <option value="Rejected">Rejected</option>
+                                                            </select>
                                                         </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time:</th>
+                                                        <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">{leave.ApplicationTime}</td>
                                                     </tr>
                                                 </React.Fragment>
                                             ))}
                                         </tbody>
+
                                     </table>
                                 </div>
-                                
                             )}
 
                         </div>
@@ -233,4 +232,4 @@ const PrincipalStudentPage = () => {
         </section>
     );
 };
-export default PrincipalStudentPage;
+export default PrincipalFacultyPendingPage;

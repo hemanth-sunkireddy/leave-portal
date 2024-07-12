@@ -15,7 +15,7 @@ const firebaseConfig = {
     measurementId: "G-VD1JVK0RN9"
 };
 
-const PrincipalStudentPage = () => {
+const PrincipalStudentPendingPage = () => {
     const [pin, setPin] = useState('');
     const app = initializeApp(firebaseConfig);
     const [errorText, setErrorText] = useState('');
@@ -64,11 +64,11 @@ const PrincipalStudentPage = () => {
             try {
                 const leavesRef = collection(db, "leaves");
                 const q = query(leavesRef, where("UserType", "==", "Student" )
-            , where("Status", "in", ["Accepted", "Rejected"]));
+            , where("Status", "==", "Applied"));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    setErrorText("Leave Requests Empty. No students Leave requests were approved/rejected.");
+                    setErrorText("No Student Pending Leave Requests.");
                     setIsLoading(false);
                 } else {
                     setErrorText("Students leave requests are below.")
@@ -158,7 +158,15 @@ const PrincipalStudentPage = () => {
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">
-                                                            {leave.Status}
+                                                            <select
+                                                                value={leave.Status}
+                                                                onChange={(e) => handleStatusChange(index, e.target.value)}
+                                                                className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+                                                            >
+                                                                <option value="Applied">Applied</option>
+                                                                <option value="Accepted">Accepted</option>
+                                                                <option value="Rejected">Rejected</option>
+                                                            </select>
                                                         </td>
                                                     </tr>
                                                 </React.Fragment>
@@ -233,4 +241,4 @@ const PrincipalStudentPage = () => {
         </section>
     );
 };
-export default PrincipalStudentPage;
+export default PrincipalStudentPendingPage;

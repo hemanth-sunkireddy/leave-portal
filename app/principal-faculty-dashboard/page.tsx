@@ -12,7 +12,7 @@ const PrincipalFacultyDashboard = () => {
     <>
       <Breadcrumb
         pageName="All Faculty Leave Requests"
-        description="View your Faculty applied leave requests and Please approve/reject them."
+        description="View your Faculty completed applied leave requests and approved/rejected by you."
       />
       <PrincipalFacultyPage />
     </>

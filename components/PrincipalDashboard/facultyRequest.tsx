@@ -63,11 +63,12 @@ const PrincipalFacultyPage = () => {
 
             try {
                 const leavesRef = collection(db, "leaves");
-                const q = query(leavesRef, where("UserType", "==", "Faculty"));
+                const q = query(leavesRef, where("UserType", "==", "Faculty")
+                    , where("Status", "in", ["Accepted", "Rejected"]));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    setErrorText("No Faculty Applied For leave.");
+                    setErrorText("No Faculty Leave Requests were approved/rejected by you.");
                     setIsLoading(false);
                 } else {
                     setErrorText("Faculty leave requests are below.")
@@ -140,19 +141,11 @@ const PrincipalFacultyPage = () => {
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                                                     </tr>
-                                                    
+
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
-                                                            <select
-                                                                value={leave.Status}
-                                                                onChange={(e) => handleStatusChange(index, e.target.value)}
-                                                                className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
-                                                            >
-                                                                <option value="Applied">Applied</option>
-                                                                <option value="Accepted">Accepted</option>
-                                                                <option value="Rejected">Rejected</option>
-                                                            </select>
+                                                            {leave.Status}
                                                         </td>
                                                     </tr>
                                                     <tr>
