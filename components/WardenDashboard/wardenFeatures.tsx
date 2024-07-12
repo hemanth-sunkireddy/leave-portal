@@ -3,9 +3,9 @@ import { Features } from "@/types/dashboard";
 const featureData: Features[] = [
   {
     id: 1,
-    title: "Student Leave Requests with less than 2 days",
+    title: "Completed Student Leave Requests with less than 2 days",
     paragraph:
-      "View your student Leave Request Applications who applied for less than 2 days. Please Approve/Reject them.",
+      "View your student Leave Request Applications with less than 2 days and approved/rejected by Mentor/You.",
     image: "/images/dashboard/past-leave.jpg",
     detail: "View Applications",
     redirectLink: "warden-student-dashboard"
@@ -18,6 +18,15 @@ const featureData: Features[] = [
     image: "/images/dashboard/past-leave.jpg",
     detail: "View All Applications",
     redirectLink: "warden-principal-dashboard"
+  },
+  {
+    id: 3,
+    title: "Pending Student Leave Requests with more than 2 days",
+    paragraph:
+      "View your student Pending Leave Request Applications who applied for less than 2 days. Please  approve/rejecte Leave Requests.",
+    image: "/images/dashboard/past-leave.jpg",
+    detail: "View All Applications",
+    redirectLink: "warden-student-pending"
   },
 ];
 export default featureData;

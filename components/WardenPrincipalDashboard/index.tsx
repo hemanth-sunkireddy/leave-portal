@@ -78,7 +78,7 @@ const WardenPrincipalPage = () => {
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    setErrorText("No Student Applied For leave.");
+                    setErrorText("No Student Applied Leave for More than 2 days.");
                     setIsLoading(false);
                 } else {
                     setErrorText("Student's Leave requests are below.")
