@@ -19,6 +19,7 @@ const MyLeaves = () => {
   const [errorText, setErrorText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [myLeaves, setMyLeaves] = useState(true);
+  const [isMobileView, setIsMobileView] = useState(true);
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -76,6 +77,23 @@ const MyLeaves = () => {
     fetchLeaveRequests();
   }, [userId, db]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 900); // Update isMobileView based on window width
+    };
+
+    // Initial check on component mount
+    setIsMobileView(window.innerWidth < 900);
+
+    // Event listener to update on window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   if (!myLeaves) {
     return (
       <p className="mt-2 text-sm text-red-600 font-bold text-center">
@@ -84,7 +102,7 @@ const MyLeaves = () => {
     );
   }
 
-  return (
+  const mobileView = (
     <section className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
       <div className="container">
         <div className="-mx-4 flex flex-wrap">
@@ -150,6 +168,58 @@ const MyLeaves = () => {
       </div>
     </section>
   );
+
+  const desktopView = (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="w-full max-w-5xl mx-auto">
+        <div className="shadow-three bg-white rounded-lg px-6 py-10 dark:bg-dark sm:p-8">
+          {errorText && (
+            <p className="mt-2 text-sm text-red-600 font-bold text-center">
+              {errorText}
+            </p>
+          )}
+          {isLoading ? (
+            <p className="mt-2 text-sm text-lime-600 font-bold text-center">
+              Loading...
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white dark:bg-dark border border-lime-600 dark:border-gray-600">
+                <thead className="hidden md:table-header-group">
+                  <tr>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Pin</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Reason</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Parent Mobile</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Mentor</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Total Days</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Application With</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaveRequests.map((leave, index) => (
+                    <tr key={index}>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationWith}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  return isMobileView ? mobileView : desktopView;
 };
 
 export default MyLeaves;
