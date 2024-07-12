@@ -173,6 +173,10 @@ const MentorPage = () => {
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
                                                     </tr>
                                                     <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
                                                     </tr>
@@ -240,6 +244,7 @@ const MentorPage = () => {
                             <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor</th>
                             <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time</th>
                             <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence Type</th>
+                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date</th>
                             <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days</th>
                             <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
                           </tr>
@@ -253,6 +258,7 @@ const MentorPage = () => {
                               <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
                               <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
                               <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
+                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
                               <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
                               <td className="px-4 py-2 border-b border-lime-600 dark:border-gray-600">
                                 {leave.ApplicationWith === "Warden" ? (

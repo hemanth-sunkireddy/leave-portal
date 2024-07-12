@@ -81,8 +81,8 @@ const PrincipalStudentPage = () => {
 
             try {
                 const leavesRef = collection(db, "leaves");
-                const q = query(leavesRef, where("UserType", "==", "Student" )
-            , where("Status", "in", ["Accepted", "Rejected"]));
+                const q = query(leavesRef, where("UserType", "==", "Student")
+                    , where("Status", "in", ["Accepted", "Rejected"]));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
@@ -108,11 +108,11 @@ const PrincipalStudentPage = () => {
     }, [pin, db]);
 
 
-   
 
 
-    useEffect(() =>{
-        if(leaveData) setIsLoading(false);
+
+    useEffect(() => {
+        if (leaveData) setIsLoading(false);
     }, [leaveData]);
 
     const mobileView = (
@@ -161,6 +161,14 @@ const PrincipalStudentPage = () => {
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
                                                     </tr>
                                                     <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">
                                                             {leave.Status}
@@ -171,14 +179,14 @@ const PrincipalStudentPage = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                
+
                             )}
 
                         </div>
                     </div>
                 </div>
             </div>
-           
+
         </section>
     );
 
@@ -186,62 +194,57 @@ const PrincipalStudentPage = () => {
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
             <div className="w-full max-w-fit mx-auto">
                 <div className="shadow-three bg-white rounded-lg px-6 py-10 dark:bg-dark sm:p-8">
-                            {errorText && (
-                                <p className="mt-2 text-sm text-red-600 font-bold text-center">
-                                    {errorText}
-                                </p>
-                            )}
-                            {isLoading ? (
-                                <p className="mt-2 text-sm text-lime-600 font-bold text-center">
-                                    Loading...
-                                </p>
-                            ) : (
-                                <div className="overflow-x-auto">
-                                    <table className="min-w-full bg-white dark:bg-dark border  border-lime-600 dark:border-gray-600">
-                                        <tbody>
-                                            {leaveData.map((leave, index) => (
-                                                <React.Fragment key={index}>
-                                                    <tr className=''>
-                                                        <th className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
-                                                        <td className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence Type:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status:</th>
-                                                        <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">
-                                                            {leave.Status}
-                                                        </td>
-                                                    </tr>
-                                                </React.Fragment>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                            )}
+                    {errorText && (
+                        <p className="mt-2 text-sm text-red-600 font-bold text-center">
+                            {errorText}
+                        </p>
+                    )}
+                    {isLoading ? (
+                        <p className="mt-2 text-sm text-lime-600 font-bold text-center">
+                            Loading...
+                        </p>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full bg-white dark:bg-dark border border-lime-600 dark:border-gray-600">
+                                <thead>
+                                    <tr>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence Type</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {leaveData.map((leave, index) => (
+                                        <tr key={index}>
+                                            <td className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
+                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
+                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
+                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
+                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
+                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
+                                            <td className="py-2 px-4 border-b border-lime-600 dark:border-lime-600">
+                                                {leave.Status}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
 
                         </div>
-                    </div>
+
+                    )}
+
                 </div>
+            </div>
+        </div>
     );
     return isMobileView ? mobileView : desktopView;
 };
