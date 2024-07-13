@@ -36,7 +36,7 @@ const Footer = () => {
                       href="/"
                       className="dark:text-body-color-dark mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:hover:text-primary"
                     >
-                      Pavithra Bandi
+                      Pavithra Reddy Bandi
                     </a>
                   </li>
                   <li>
@@ -44,7 +44,15 @@ const Footer = () => {
                       href="/"
                       className="dark:text-body-color-dark mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:hover:text-primary"
                     >
-                      Lavanya Karna
+                      Lavanya Reddy Karna
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/"
+                      className="dark:text-body-color-dark mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:hover:text-primary"
+                    >
+                      Manisha Yallapu
                     </a>
                   </li>
                 </ul>

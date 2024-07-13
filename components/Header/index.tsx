@@ -54,13 +54,15 @@ const Header = () => {
                 className={`header-logo block w-full ${sticky ? "py-5 lg:py-2" : "py-8"
                   } `}
               >
-                <Image
+                <div>
+                <Image className="rounded-full border-2"
                   src="/images/team.jpeg" // Replace with your image path
                   alt="Team Logo"
                   width={70} // Adjust width as needed
                   height={10} // Adjust height as needed
                   layout="fixed"
                 />
+                </div>
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">
