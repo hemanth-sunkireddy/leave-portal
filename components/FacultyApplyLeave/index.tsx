@@ -18,16 +18,15 @@ const firebaseConfig = {
 
 const FacultyApplyLeaveForm = () => {
   const [pin, setPin] = useState('');
-  const [mentor, setMentor] = useState('');
+  const [faculty, setFaculty] = useState('');
+  const [period, setPeriod] = useState('');
+  const [myclass, setMyClass] = useState('');
   const [reason, setReason] = useState('');
   const [parentMobile, setParentMobile] = useState('');
   const [totalDays, setTotalDays] = useState('');
-  const [gender, setGender] = useState('');
-  const [residence, setResidence] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [fromDate, setFromDate] = useState('');
-  const [applicationWith, setApplicationWith] = useState("Warden");
   const app = initializeApp(firebaseConfig);
 
   const db = getFirestore(app);
@@ -35,15 +34,20 @@ const FacultyApplyLeaveForm = () => {
   const searchParams = useSearchParams();
   const [id, setId] = useState<string | null>(null);
 
+  const handleReasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setReason(event.target.value);
+  };
+
+  const handleFacultyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFaculty(event.target.value);
+  };
+
   useEffect(() => {
     setId(searchParams.get('userid'));
     console.log("ID IN LEAVE: ", searchParams.get('userid'));
   }, [searchParams]);
 
-  useEffect(() => {
-    const totalDaysInt = parseInt(totalDays);
-    if (totalDaysInt > 2) setApplicationWith("Principal");
-  }, [totalDays])
+  
 
 
   useEffect(() => {
@@ -78,7 +82,7 @@ const FacultyApplyLeaveForm = () => {
   }, [id]);
 
 
- 
+
   const handleSubmit = async (event) => {
 
     setErrorText(null);
@@ -105,6 +109,27 @@ const FacultyApplyLeaveForm = () => {
         setErrorText("Please Enter Total number of Days for Leave.");
       }, 1000);
     }
+    else if (faculty === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Enter Substitute Faculty.");
+      }, 1000);
+    }
+    else if (myclass === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Enter Class.");
+      }, 1000);
+    }
+    else if (period === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Enter Period.");
+      }, 1000);
+    }
     else if (fromDate === '') {
 
       setTimeout(() => {
@@ -116,8 +141,8 @@ const FacultyApplyLeaveForm = () => {
       const date = new Date();
       date.setMinutes(date.getMinutes() + 330);
       const isoString = date.toISOString();
-      const isoDate = isoString.split('T')[0]; 
-      const isoTime = isoString.split('T')[1].split('.')[0]; 
+      const isoDate = isoString.split('T')[0];
+      const isoTime = isoString.split('T')[1].split('.')[0];
       const documentName = `${pin}_${isoDate} ${isoTime}`;
       const formData = {
         Pin: pin,
@@ -126,8 +151,11 @@ const FacultyApplyLeaveForm = () => {
         ApplicationTime: `${isoDate} ${isoTime}`,
         Status: "Applied",
         TotalDays: totalDays,
+        SubstituteFaculty: faculty,
         ApplicationWith: "Principal",
         FromDate: fromDate,
+        Class: myclass,
+        Period: period,
         UserType: "Faculty"
       };
       try {
@@ -170,20 +198,20 @@ const FacultyApplyLeaveForm = () => {
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="mb-8">
-                  <label
-                    htmlFor="reason"
-                    className="mb-3 block text-sm text-dark dark:text-white"
-                  >
-                    {" "}
-                    Reason For Leave{" "}
+                  <label htmlFor="reason" className="block text-sm text-dark dark:text-white mb-3">
+                    Category of Leave
                   </label>
-                  <input
-                    type="text"
+                  <select
+                    id="reason"
                     name="reason"
-                    placeholder="Enter reason for leave"
-                    onChange={(e) => setReason(e.target.value)}
+                    onChange={handleReasonChange}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  />
+                  >
+                    <option value="">Select...</option>
+                    <option value="casualleave">Casual Leave</option>
+                    <option value="sickness">Sickness</option>
+                    <option value="specialcasual">Special Casual</option>
+                  </select>
                 </div>
                 <div className="mb-8">
                   <label
@@ -233,37 +261,66 @@ const FacultyApplyLeaveForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                {/* <div className="mb-8">
-                  <label htmlFor="gender" className="block text-sm text-dark dark:text-white mb-3">
-                    Select Your Gender
-                  </label>
-                  <select
-                    id="gender"
-                    name="gender"
-                    onChange={handleGender}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  >
-                    <option value="">Select...</option>
-                    <option value="Girl">Girl</option>
-                    <option value="Boy">Boy</option>
-                  </select>
-                </div> */}
-                {/* <div className="mb-8">
-                  <label htmlFor="residence" className="block text-sm text-dark dark:text-white mb-3">
-                    Select Your Residence type
-                  </label>
-                  <select
-                    id="residence"
-                    name="residence"
-                    onChange={handleResidence}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  >
-                    <option value="">Select...</option>
-                    <option value="Hostel">Hosteler</option>
-                    <option value="Day Scholar">Day Scholar</option>
-                  </select>
-                </div> */}
+                <div className="mb-8 flex items-center justify-center">
+                  <span className="hidden h-[1px] w-full max-w-[60px] bg-body-color/50 sm:block"></span>
+                  <p className="w-full px-5 text-center text-base font-medium text-body-color">
+                    Class Work to be adjusted
+                  </p>
+                  <span className="hidden h-[1px] w-full max-w-[60px] bg-body-color/50 sm:block"></span>
+                </div>
 
+                <div className="mb-8">
+                  <label htmlFor="faculty" className="block text-sm text-dark dark:text-white mb-3">
+                    Chooose Substitute Faculty
+                  </label>
+                  <select
+                    id="faculty"
+                    name="faculty"
+                    onChange={handleFacultyChange}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  >
+                    <option value="">Select...</option>
+                    <option value="ashok">Ashok</option>
+                    <option value="aruna">Aruna</option>
+                    <option value="bhanu">Bhanu</option>
+                    <option value="mary">Mary</option>
+                    <option value="ramana">Ramana</option>
+                    <option value="veeranjaneyulu">Veeranjaneyulu</option>
+                  </select>
+                </div>
+
+                <div className="mb-8">
+                  <label
+                    htmlFor="period"
+                    className="mb-3 block text-sm text-dark dark:text-white"
+                  >
+                    {" "}
+                    Period{" "}
+                  </label>
+                  <input
+                    type="number"
+                    name="period"
+                    placeholder="Enter the Period number"
+                    onChange={(e) => setPeriod(e.target.value)}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  />
+                </div>
+                <div className="mb-8">
+                  <label
+                    htmlFor="class"
+                    className="mb-3 block text-sm text-dark dark:text-white"
+                  >
+                    {" "}
+                    Class{" "}
+                  </label>
+                  <input
+                    type="text"
+                    name="class"
+                    placeholder="Enter Class"
+                    onChange={(e) => setMyClass(e.target.value)}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  />
+                </div>
                 <div className="mb-6">
                   <button type="submit" className="shadow-submit dark:shadow-submit-dark flex w-full items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
                     {isLoading ? (
