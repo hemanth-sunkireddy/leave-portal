@@ -20,11 +20,13 @@ const ApplyLeaveForm = () => {
   const [pin, setPin] = useState('');
   const [mentor, setMentor] = useState('');
   const [reason, setReason] = useState('');
-  const [parentMobile, setParentMobile] = useState('');
   const [totalDays, setTotalDays] = useState('');
   const [gender, setGender] = useState('');
   const [residence, setResidence] = useState('');
+  const [name, setName] = useState('');
   const [fromDate, setFromDate] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [branch, setBranch] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [applicationWith, setApplicationWith] = useState("Warden");
@@ -43,7 +45,7 @@ const ApplyLeaveForm = () => {
   useEffect(() => {
     const totalDaysInt = parseInt(totalDays);
     console.log(totalDaysInt);
-    if (totalDaysInt > 2) setApplicationWith("Principal");
+    if (totalDaysInt > 3) setApplicationWith("Principal");
   }, [totalDays])
 
 
@@ -61,6 +63,12 @@ const ApplyLeaveForm = () => {
         } else {
           querySnapshot.forEach(doc => {
             const userpin = doc.data().Pin;
+            const Mobile = doc.data().Phone;
+            const Branch = doc.data().Branch;
+            const Name = doc.data().Name;
+            setName(Name);
+            setBranch(Branch);
+            setMobile(Mobile);
             console.log("ID OF USER: ", userpin);
             setPin(userpin);
           });
@@ -97,66 +105,60 @@ const ApplyLeaveForm = () => {
     event.preventDefault();
 
     setIsLoading(true);
-    if (parentMobile === '') {
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Fill your Parent Mobile Number.");
-      }, 1000);
-    }
-    else if (reason === '') {
+
+    if (reason === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Fill Reason For Leave.");
-      }, 1000);
+      }, 10);
     }
     else if (totalDays === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Enter Total number of Days for Leave.");
-      }, 1000);
+      }, 10);
     }
     else if (mentor === '' || mentor === "Select...") {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Select Your Mentor.");
-      }, 1000);
+      }, 10);
     }
     else if (gender === '' || gender === "Select...") {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Select Your Gender.");
-      }, 1000);
+      }, 10);
     }
     else if (residence === '' || residence === "Select...") {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Select Your Residence type.");
-      }, 1000);
+      }, 10);
     }
     else if (fromDate === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Enter your Leave Start Date.");
-      }, 1000);
+      }, 10);
     }
     else {
       const date = new Date();
       date.setMinutes(date.getMinutes() + 330);
       const isoString = date.toISOString();
-      const isoDate = isoString.split('T')[0]; 
-      const isoTime = isoString.split('T')[1].split('.')[0]; 
+      const isoDate = isoString.split('T')[0];
+      const isoTime = isoString.split('T')[1].split('.')[0];
 
       const documentName = `${pin}_${isoDate} ${isoTime}`;
       const formData = {
         Pin: pin,
         Reason: reason,
-        ParentMobile: parentMobile,
         Mentor: mentor,
         ApplicationTime: `${isoDate} ${isoTime}`,
         Status: "Applied",
@@ -164,6 +166,9 @@ const ApplyLeaveForm = () => {
         Residence: residence,
         ApplicationWith: applicationWith,
         Gender: gender,
+        Branch: branch,
+        Name: name,
+        ParentMobile: mobile,
         FromDate: fromDate,
         UserType: "Student"
       };
@@ -174,12 +179,12 @@ const ApplyLeaveForm = () => {
         setTimeout(() => {
           location.href = `/my-leaves/?userid=${id}`;
           setIsLoading(false);
-        }, 1000);
+        }, 10);
       } catch (error) {
         setTimeout(() => {
           setIsLoading(false);
           setErrorText(error.message.toString());
-        }, 1000);
+        }, 10);
       }
     }
   };
@@ -222,22 +227,7 @@ const ApplyLeaveForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-                <div className="mb-8">
-                  <label
-                    htmlFor="mobile"
-                    className="mb-3 block text-sm text-dark dark:text-white"
-                  >
-                    {" "}
-                    Parent Mobile{" "}
-                  </label>
-                  <input
-                    type="mobile"
-                    name="mobile"
-                    placeholder="Enter your Parent Mobile Number"
-                    onChange={(e) => setParentMobile(e.target.value)}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  />
-                </div>
+
                 <div className="mb-8">
                   <label htmlFor="mentor" className="block text-sm text-dark dark:text-white mb-3">
                     Select Mentor

@@ -54,7 +54,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         location.href = `/${route}/?userid=${userID}`;
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 } else {
                     setErrorText('Incorrect Password. Please try again.');
                     setIsLoading(false);
@@ -63,14 +63,14 @@ const SignInForm = () => {
                 setTimeout(() => {
                     setIsLoading(false);
                     setErrorText("User Not found, Please Sign Up.")
-                }, 1000);
+                }, 10);
             }
         } catch (e) {
             console.error("Error adding document: ", e);
             setTimeout(() => {
                 setIsLoading(false);
                 setErrorText(e.message.toString());
-            }, 1000);
+            }, 10);
         }
     };
 
@@ -85,14 +85,14 @@ const SignInForm = () => {
             setTimeout(() => {
                 setIsLoading(false);
                 setErrorText("Please Fill your Pin");
-            }, 1000);
+            }, 10);
         }
         else if (password === '') {
 
             setTimeout(() => {
                 setIsLoading(false);
                 setErrorText("Please Fill your Password");
-            }, 1000);
+            }, 10);
         }
         else {
             if (pin == 'Principal') {
@@ -103,7 +103,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 }
             }
             else if (pin == 'NirmalaGirlsHostel') {
@@ -114,7 +114,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 }
             }
             else if (pin == 'SowrinathaSwamyHostel') {
@@ -125,7 +125,18 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
+                }
+            }
+            else if (pin == 'hodcse') {
+                if (password == 'hodcse') {
+                    getUserIdAndRedirect(pin, "hod-dashboard");
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 10);
                 }
             }
             else if (pin == 'Mary') {
@@ -136,7 +147,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 }
             }
             else if (pin == 'Aruna') {
@@ -147,7 +158,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 }
             }
             else if (pin === 'Ashok') {
@@ -158,7 +169,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 }
             }
             else if (pin === 'Ramana') {
@@ -169,7 +180,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 }
             }
             else if (pin === 'Bhanu') {
@@ -180,7 +191,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 }
             }
             else if (pin === 'Veeranjaneyulu') {
@@ -191,7 +202,7 @@ const SignInForm = () => {
                     setTimeout(() => {
                         setErrorText("Password Incorrect. Please check password.");
                         setIsLoading(false);
-                    }, 1000);
+                    }, 10);
                 }
             }
             else {

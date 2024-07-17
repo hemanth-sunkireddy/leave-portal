@@ -128,6 +128,10 @@ const MyLeaves = () => {
                             <td className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                           </tr>
                           <tr>
+                            <th className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Name:</th>
+                            <td className="pt-12 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Name}</td>
+                          </tr>
+                          <tr>
                             <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason:</th>
                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
                           </tr>
@@ -192,6 +196,7 @@ const MyLeaves = () => {
                 <thead className="hidden md:table-header-group">
                   <tr>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Pin</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Name</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Reason</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Parent Mobile</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Mentor</th>
@@ -206,6 +211,7 @@ const MyLeaves = () => {
                   {leaveRequests.map((leave, index) => (
                     <tr key={index}>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Name}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>

@@ -22,6 +22,8 @@ const SignupForm = () => {
   const [name, setName] = useState('');
   const [pin, setPin] = useState('');
   const [password, setPassword] = useState('');
+  const [branch, setBranch] = useState('');
+  const [phone, setPhone] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const app = initializeApp(firebaseConfig);
@@ -30,6 +32,10 @@ const SignupForm = () => {
 
   const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedUserType(event.target.value);
+  };
+
+  const handleBranchChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setBranch(event.target.value);
   };
 
   const generateRandomString = (length) => {
@@ -53,7 +59,7 @@ const SignupForm = () => {
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Fill your Name");
-      }, 1000);
+      }, 10);
 
     }
     else if (pin === '') {
@@ -61,21 +67,35 @@ const SignupForm = () => {
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Fill your Pin");
-      }, 1000);
+      }, 10);
     }
     else if (password === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Fill your Password");
-      }, 1000);
+      }, 10);
     }
     else if (selectedUserType === '' || selectedUserType === "Select...") {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Select User Type");
-      }, 1000);
+      }, 10);
+    }
+    else if (branch === '' || branch === "Select...") {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Select Branch/ Department");
+      }, 10);
+    }
+    else if (phone === '') {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Fill Phone Number");
+      }, 10);
     }
     else {
       const date = new Date();
@@ -91,7 +111,9 @@ const SignupForm = () => {
         UserType: selectedUserType,
         SignUpTime: isoString,
         UsageCount: 1,
-        UniqueID: randomString
+        UniqueID: randomString,
+        Phone: phone, 
+        Branch: branch
       };
 
       try {
@@ -108,7 +130,7 @@ const SignupForm = () => {
           setTimeout(() => {
             setIsLoading(false);
             location.href = `/signin`;
-          }, 1000);
+          }, 10);
           setIsLoading(false);
         }
       } catch (e) {
@@ -116,7 +138,7 @@ const SignupForm = () => {
         setTimeout(() => {
           setIsLoading(false);
           setErrorText(e.message.toString());
-        }, 1000);
+        }, 10);
       }
     }
   };
@@ -177,6 +199,22 @@ const SignupForm = () => {
                 </div>
                 <div className="mb-8">
                   <label
+                    htmlFor="phone"
+                    className="mb-3 block text-sm text-dark dark:text-white"
+                  >
+                    {" "}
+                    Phone Number{" "}
+                  </label>
+                  <input
+                    type="number"
+                    name="phone"
+                    placeholder="If student -  Enter Parent Number"
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  />
+                </div>
+                <div className="mb-8">
+                  <label
                     htmlFor="password"
                     className="mb-3 block text-sm text-dark dark:text-white"
                   >
@@ -211,6 +249,26 @@ const SignupForm = () => {
                       You selected: {selectedUserType}
                     </p>
                   )}
+                </div>
+                <div className="mb-8">
+                  <label htmlFor="userType" className="block text-sm text-dark dark:text-white mb-3">
+                    Select Branch/Department
+                  </label>
+                  <select
+                    id="branch"
+                    name="branch"
+                    value={branch}
+                    onChange={handleBranchChange}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  >
+                    <option value="">Select...</option>
+                    <option value="cme">C.M.E.</option>
+                    <option value="ece">E.C.E.</option>
+                    <option value="ce">C.E.</option>
+                    <option value="me">M.E.</option>
+                    <option value="mng">M.N.G.</option>
+                    <option value="ee">E.E.</option>
+                  </select>
                 </div>
 
                 <div className="mb-6">

@@ -93,49 +93,49 @@ const FacultyApplyLeaveForm = () => {
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Fill your Mobile Number.");
-      }, 1000);
+      }, 10);
     }
     else if (reason === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Fill Reason For Leave.");
-      }, 1000);
+      }, 10);
     }
     else if (totalDays === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Enter Total number of Days for Leave.");
-      }, 1000);
+      }, 10);
     }
     else if (faculty === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Enter Substitute Faculty.");
-      }, 1000);
+      }, 10);
     }
     else if (myclass === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Enter Class.");
-      }, 1000);
+      }, 10);
     }
     else if (period === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Enter Period.");
-      }, 1000);
+      }, 10);
     }
     else if (fromDate === '') {
 
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Enter Leave Start Date.");
-      }, 1000);
+      }, 10);
     }
     else {
       const date = new Date();
@@ -165,12 +165,12 @@ const FacultyApplyLeaveForm = () => {
         setTimeout(() => {
           location.href = `/faculty-my-leaves/?userid=${id}`;
           setIsLoading(false);
-        }, 1000);
+        }, 10);
       } catch (error) {
         setTimeout(() => {
           setIsLoading(false);
           setErrorText(error.message.toString());
-        }, 1000);
+        }, 10);
       }
     }
   };
