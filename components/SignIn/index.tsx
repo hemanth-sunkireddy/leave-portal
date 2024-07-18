@@ -97,8 +97,8 @@ const SignInForm = () => {
             }, 10);
         }
         else {
-            if (pin == 'Principal') {
-                if (password == 'Principal') {
+            if (pin == '1') {
+                if (password == '1') {
                     getUserIdAndRedirect(pin, "principal-dashboard");
                 }
                 else {
