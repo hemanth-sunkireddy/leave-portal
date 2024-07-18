@@ -253,7 +253,7 @@ const ApplyLeaveForm = () => {
                 </p>
               )}
               <div className="mb-8 flex items-center justify-center">
-                <p className="w-full px-5 text-center text-base font-medium text-body-color">
+                <p className="w-full px-5 text-center text-green-600 font-extrabold text-1xl">
                   To Apply for more than 3 Days, Please Contact Principal
                 </p>
               </div>
