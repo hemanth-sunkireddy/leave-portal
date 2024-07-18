@@ -23,6 +23,7 @@ const SignupForm = () => {
   const [pin, setPin] = useState('');
   const [password, setPassword] = useState('');
   const [branch, setBranch] = useState('');
+  const [gender, setGender] = useState("");
   const [phone, setPhone] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +37,10 @@ const SignupForm = () => {
 
   const handleBranchChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setBranch(event.target.value);
+  };
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGender(event.target.value);
   };
 
   const generateRandomString = (length) => {
@@ -90,6 +95,13 @@ const SignupForm = () => {
         setErrorText("Please Select Branch/ Department");
       }, 10);
     }
+    else if (gender === '' && selectedUserType === "Student") {
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorText("Please Select Gender");
+      }, 10);
+    }
     else if (phone === '') {
 
       setTimeout(() => {
@@ -113,6 +125,7 @@ const SignupForm = () => {
         UsageCount: 1,
         UniqueID: randomString,
         Phone: phone, 
+        Gender: gender,
         Branch: branch
       };
 
@@ -268,6 +281,23 @@ const SignupForm = () => {
                     <option value="me">M.E.</option>
                     <option value="mng">M.N.G.</option>
                     <option value="ee">E.E.</option>
+                  </select>
+                </div>
+
+                <div className="mb-8">
+                  <label htmlFor="gender" className="block text-sm text-dark dark:text-white mb-3">
+                    Select Gender (Only for Students)
+                  </label>
+                  <select
+                    id="gender"
+                    name="gender"
+                    value={gender}
+                    onChange={handleGenderChange}
+                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                  >
+                    <option value="">Select...</option>
+                    <option value="boy">Boy</option>
+                    <option value="girl">Girl</option>
                   </select>
                 </div>
 
