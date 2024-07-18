@@ -165,6 +165,7 @@ const StudentSignupForm = () => {
                 Phone: phone,
                 Mentor: mentor,
                 Gender: gender,
+                UserType: "Student",
                 Residence: residence,
                 Branch: branch
             };

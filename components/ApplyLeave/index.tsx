@@ -48,6 +48,10 @@ const ApplyLeaveForm = () => {
     if (totalDaysInt > 3) setApplicationWith("Principal");
   }, [totalDays])
 
+  const handleTotalDays = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTotalDays(event.target.value);
+};
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,11 +69,16 @@ const ApplyLeaveForm = () => {
             const userpin = doc.data().Pin;
             const Mobile = doc.data().Phone;
             const Branch = doc.data().Branch;
-            const Name = doc.data().Name;
+            const Name = doc.data().FirstName;
+            const Mentor = doc.data().Mentor;
+            const Gender = doc.data().Gender;
+            const Residence = doc.data().Residence;
             setName(Name);
             setBranch(Branch);
+            setMentor(Mentor);
             setMobile(Mobile);
-            console.log("ID OF USER: ", userpin);
+            setGender(Gender);
+            setResidence(Residence);
             setPin(userpin);
           });
         }
@@ -85,19 +94,6 @@ const ApplyLeaveForm = () => {
       fetchData();
     }
   }, [id]);
-
-
-  const handleUserTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setMentor(event.target.value);
-  };
-
-  const handleGender = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGender(event.target.value);
-  };
-
-  const handleResidence = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setResidence(event.target.value);
-  };
 
   const handleSubmit = async (event) => {
 
@@ -118,27 +114,6 @@ const ApplyLeaveForm = () => {
       setTimeout(() => {
         setIsLoading(false);
         setErrorText("Please Enter Total number of Days for Leave.");
-      }, 10);
-    }
-    else if (mentor === '' || mentor === "Select...") {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Select Your Mentor.");
-      }, 10);
-    }
-    else if (gender === '' || gender === "Select...") {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Select Your Gender.");
-      }, 10);
-    }
-    else if (residence === '' || residence === "Select...") {
-
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Select Your Residence type.");
       }, 10);
     }
     else if (fromDate === '') {
@@ -227,26 +202,6 @@ const ApplyLeaveForm = () => {
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   />
                 </div>
-
-                <div className="mb-8">
-                  <label htmlFor="mentor" className="block text-sm text-dark dark:text-white mb-3">
-                    Select Mentor
-                  </label>
-                  <select
-                    id="mentor"
-                    name="mentor"
-                    onChange={handleUserTypeChange}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  >
-                    <option value="">Select...</option>
-                    <option value="Mary">Mary</option>
-                    <option value="Ashok">Ashok</option>
-                    <option value="Aruna">Aruna</option>
-                    <option value="Ramana">Ramana</option>
-                    <option value="Bhanu">Bhanu</option>
-                    <option value="Veeranjaneyulu">Veeranjaneyulu</option>
-                  </select>
-                </div>
                 <div className="mb-8">
                   <label
                     htmlFor="fromDate"
@@ -264,49 +219,20 @@ const ApplyLeaveForm = () => {
                   />
                 </div>
                 <div className="mb-8">
-                  <label
-                    htmlFor="days"
-                    className="mb-3 block text-sm text-dark dark:text-white"
-                  >
-                    {" "}
-                    Total Number of Days{" "}
+                  <label htmlFor="days" className="block text-sm text-dark dark:text-white mb-3">
+                    Total Number of Days
                   </label>
-                  <input
-                    type="number"
+                  <select
+                    id="days"
                     name="days"
-                    placeholder="Enter number of days you want to apply"
-                    onChange={(e) => setTotalDays(e.target.value)}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  />
-                </div>
-                <div className="mb-8">
-                  <label htmlFor="gender" className="block text-sm text-dark dark:text-white mb-3">
-                    Select Your Gender
-                  </label>
-                  <select
-                    id="gender"
-                    name="gender"
-                    onChange={handleGender}
+                    value={totalDays}
+                    onChange={handleTotalDays}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   >
                     <option value="">Select...</option>
-                    <option value="Girl">Girl</option>
-                    <option value="Boy">Boy</option>
-                  </select>
-                </div>
-                <div className="mb-8">
-                  <label htmlFor="residence" className="block text-sm text-dark dark:text-white mb-3">
-                    Select Your Residence type
-                  </label>
-                  <select
-                    id="residence"
-                    name="residence"
-                    onChange={handleResidence}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  >
-                    <option value="">Select...</option>
-                    <option value="Hostel">Hosteler</option>
-                    <option value="Day Scholar">Day Scholar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
                 </div>
 
@@ -323,11 +249,17 @@ const ApplyLeaveForm = () => {
                   </button>
                 </div>
               </form>
+
               {errorText && (
                 <p className="mt-2 text-sm text-red-600 font-bold text-center">
                   {errorText}
                 </p>
               )}
+              <div className="mb-8 flex items-center justify-center">
+                <p className="w-full px-5 text-center text-base font-medium text-body-color">
+                  To Apply for more than 3 Days, Please Contact Principal
+                </p>
+              </div>
             </div>
           </div>
         </div>
