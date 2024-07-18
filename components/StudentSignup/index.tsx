@@ -52,7 +52,7 @@ const StudentSignupForm = () => {
 
     const fetchMentors = async () => {
         const mentorsCollectionRef = collection(db, 'authentication');
-        const q = query(mentorsCollectionRef, where("UserType", "==", "faculty"));
+        const q = query(mentorsCollectionRef, where("UserType", "==", "Faculty"));
 
         try {
             const querySnapshot = await getDocs(q);

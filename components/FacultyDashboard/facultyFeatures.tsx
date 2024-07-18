@@ -19,5 +19,14 @@ const featureData: Features[] = [
     detail: "View Past Requests",
     redirectLink: "faculty-my-leaves"
   },
+  {
+    id: 3,
+    title: "My Students Leave Requests",
+    paragraph:
+      "View and Approve/Reject your Student Leaves Requests under you.",
+    image: "/images/dashboard/past-leave.jpg",
+    detail: "View My Student Leaves",
+    redirectLink: "mentor-dashboard"
+  },
 ];
 export default featureData;

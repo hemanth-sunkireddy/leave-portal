@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Metadata } from "next";
-import StudentSignupForm from "@/components/StudentSignup/page";
+import StudentSignupForm from "@/components/StudentSignup";
 
 export const metadata: Metadata = {
   title: "Student Sign Up Page |Leave Portal Loyola",

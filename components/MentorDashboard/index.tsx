@@ -43,7 +43,7 @@ const MentorPage = () => {
                 if (!querySnapshot.empty) {
                     // Assuming there's only one document that matches the query
                     const pinDoc = querySnapshot.docs[0];
-                    const userPin = pinDoc.data().Pin; // Adjust 'Pin' to match the field name in Firestore
+                    const userPin = pinDoc.data().Name; // Adjust 'Pin' to match the field name in Firestore
                     setPin(userPin);
                 } else {
                     setIsLoading(false);
@@ -98,7 +98,7 @@ const MentorPage = () => {
     
         // Event listener to update on window resize
         window.addEventListener('resize', handleResize);
-    
+        2022101005
         // Cleanup on component unmount
         return () => {
           window.removeEventListener('resize', handleResize);
@@ -237,29 +237,29 @@ const MentorPage = () => {
                       <table className="min-w-full bg-white dark:bg-dark border border-lime-600 dark:border-gray-600">
                         <thead>
                           <tr>
-                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin</th>
-                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
-                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Parent Mobile</th>
-                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor</th>
-                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Application Time</th>
-                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Residence Type</th>
-                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date</th>
-                            <th className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days</th>
+                            <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Pin</th>
+                            <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Reason</th>
+                            <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Parent Mobile</th>
+                            <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Mentor</th>
+                            <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time</th>
+                            <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Residence Type</th>
+                            <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Leave Start Date</th>
+                            <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Total Days</th>
                             <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
                           </tr>
                         </thead>
                         <tbody>
                           {leaveData.map((leave, index) => (
                             <tr key={index}>
-                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
-                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
-                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
-                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
-                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Residence}</td>
-                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
-                              <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
-                              <td className="px-4 py-2 border-b border-lime-600 dark:border-gray-600">
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">{leave.Pin}</td>
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">{leave.Reason}</td>
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">{leave.ParentMobile}</td>
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">{leave.Mentor}</td>
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">{leave.ApplicationTime}</td>
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">{leave.Residence}</td>
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">{leave.FromDate}</td>
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">{leave.TotalDays}</td>
+                              <td className="px-4 py-2 border-b border-gray-400 dark:border-gray-600">
                                 {leave.ApplicationWith === "Warden" ? (
                                   // Display only if ApplicationWith is Principal
                                   <select
