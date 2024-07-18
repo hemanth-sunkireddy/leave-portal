@@ -15,7 +15,7 @@ const firebaseConfig = {
     measurementId: "G-VD1JVK0RN9"
 };
 
-const PrincipalFacultyPage = () => {
+const FacultyPendingPage = () => {
     const [pin, setPin] = useState('');
     const app = initializeApp(firebaseConfig);
     const [errorText, setErrorText] = useState('');
@@ -59,34 +59,17 @@ const PrincipalFacultyPage = () => {
     }, [id, db]);
 
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobileView(window.innerWidth < 900); // Update isMobileView based on window width
-        };
-
-        // Initial check on component mount
-        setIsMobileView(window.innerWidth < 900);
-
-        // Event listener to update on window resize
-        window.addEventListener('resize', handleResize);
-
-        // Cleanup on component unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    useEffect(() => {
         const fetchData = async () => {
             if (!pin) return;
 
             try {
                 const leavesRef = collection(db, "leaves");
                 const q = query(leavesRef, where("UserType", "==", "Faculty")
-                    , where("Status", "in", ["Accepted", "Rejected"]));
+                    , where("Status", "==", "Applied"));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    setErrorText("No Faculty Leave Requests were approved/rejected by you.");
+                    setErrorText("No Pending Faculty Applied For leave.");
                     setIsLoading(false);
                 } else {
                     setErrorText("Faculty leave requests are below.")
@@ -107,7 +90,37 @@ const PrincipalFacultyPage = () => {
         fetchData();
     }, [pin, db]);
 
+    const handleStatusChange = async (index, newStatus) => {
+        try {
+            // Update the status in the local state first
+            const updatedLeaveData = [...leaveData];
+            updatedLeaveData[index].Status = newStatus;
+            setLeaveData(updatedLeaveData);
 
+            // Update the status in Firestore
+            const leaveDocRef = doc(db, 'leaves', leaveData[index].id);
+            await updateDoc(leaveDocRef, { Status: newStatus });
+        } catch (error) {
+            console.error('Error updating status:', error);
+        }
+    };
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth < 900); // Update isMobileView based on window width
+        };
+
+        // Initial check on component mount
+        setIsMobileView(window.innerWidth < 900);
+
+        // Event listener to update on window resize
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         if (leaveData) setIsLoading(false);
@@ -135,7 +148,7 @@ const PrincipalFacultyPage = () => {
                                             {leaveData.map((leave, index) => (
                                                 <React.Fragment key={index}>
                                                     <tr>
-                                                        <th className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Id:</th>
+                                                        <th className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
                                                         <td className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                                                     </tr>
                                                     <tr>
@@ -146,19 +159,19 @@ const PrincipalFacultyPage = () => {
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
-                                                    </tr>
 
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
-                                                            {leave.Status}
+                                                            <select
+                                                                value={leave.Status}
+                                                                onChange={(e) => handleStatusChange(index, e.target.value)}
+                                                                className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+                                                            >
+                                                                <option value="Applied">Applied</option>
+                                                                <option value="Accepted">Accepted</option>
+                                                                <option value="Rejected">Rejected</option>
+                                                            </select>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -170,6 +183,7 @@ const PrincipalFacultyPage = () => {
                                         </tbody>
 
                                     </table>
+
                                 </div>
                             )}
 
@@ -177,7 +191,6 @@ const PrincipalFacultyPage = () => {
                     </div>
                 </div>
             </div>
-
         </section>
     );
 
@@ -196,33 +209,43 @@ const PrincipalFacultyPage = () => {
                         </p>
                     ) : (
                         <div className="overflow-x-auto">
+
                             <table className="min-w-full bg-white dark:bg-dark border border-lime-600 dark:border-gray-600">
                                 <thead>
                                     <tr>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Id</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status</th>
                                         <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {leaveData.map((leave, index) => (
                                         <tr key={index}>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
+                                            <td className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
                                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
                                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
                                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
+                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
+                                                <select
+                                                    value={leave.Status}
+                                                    onChange={(e) => handleStatusChange(index, e.target.value)}
+                                                    className="block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+                                                >
+                                                    <option value="Applied">Applied</option>
+                                                    <option value="Accepted">Accepted</option>
+                                                    <option value="Rejected">Rejected</option>
+                                                </select>
+                                            </td>
                                             <td className="py-2 px-4 border-b border-lime-600 dark:border-lime-600">{leave.ApplicationTime}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
-
                         </div>
                     )}
 
@@ -233,4 +256,4 @@ const PrincipalFacultyPage = () => {
 
     return isMobileView ? mobileView : desktopView;
 };
-export default PrincipalFacultyPage;
+export default FacultyPendingPage;

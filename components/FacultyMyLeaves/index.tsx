@@ -132,10 +132,6 @@ const MyLeaves = () => {
                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
                           </tr>
                           <tr>
-                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile:</th>
-                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                          </tr>
-                          <tr>
                             <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mentor:</th>
                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Mentor}</td>
                           </tr>
@@ -150,10 +146,6 @@ const MyLeaves = () => {
                           <tr>
                             <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status:</th>
                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
-                          </tr>
-                          <tr>
-                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Application With:</th>
-                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationWith}</td>
                           </tr>
                           <tr>
                             <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time:</th>
@@ -193,11 +185,9 @@ const MyLeaves = () => {
                   <tr>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Pin</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Reason</th>
-                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Mobile</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Leave Start Date</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Total Days</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
-                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Application With</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time</th>
                   </tr>
                 </thead>
@@ -206,11 +196,9 @@ const MyLeaves = () => {
                     <tr key={index}>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
-                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
-                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationWith}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
                     </tr>
                   ))}

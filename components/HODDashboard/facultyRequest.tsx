@@ -15,7 +15,7 @@ const firebaseConfig = {
     measurementId: "G-VD1JVK0RN9"
 };
 
-const PrincipalFacultyPage = () => {
+const HODFacultyPage = () => {
     const [pin, setPin] = useState('');
     const app = initializeApp(firebaseConfig);
     const [errorText, setErrorText] = useState('');
@@ -135,7 +135,7 @@ const PrincipalFacultyPage = () => {
                                             {leaveData.map((leave, index) => (
                                                 <React.Fragment key={index}>
                                                     <tr>
-                                                        <th className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Id:</th>
+                                                        <th className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin:</th>
                                                         <td className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
                                                     </tr>
                                                     <tr>
@@ -199,7 +199,7 @@ const PrincipalFacultyPage = () => {
                             <table className="min-w-full bg-white dark:bg-dark border border-lime-600 dark:border-gray-600">
                                 <thead>
                                     <tr>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Id</th>
+                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile</th>
                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status</th>
@@ -233,4 +233,4 @@ const PrincipalFacultyPage = () => {
 
     return isMobileView ? mobileView : desktopView;
 };
-export default PrincipalFacultyPage;
+export default HODFacultyPage;

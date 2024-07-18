@@ -18,14 +18,15 @@ const firebaseConfig = {
 
 const FacultyApplyLeaveForm = () => {
   const [pin, setPin] = useState('');
-  const [faculty, setFaculty] = useState('');
+  const [mentor, setMentor] = useState('');
   const [period, setPeriod] = useState('');
   const [myclass, setMyClass] = useState('');
   const [reason, setReason] = useState('');
-  const [parentMobile, setParentMobile] = useState('');
+  const [Mobile, setMobile] = useState('');
   const [totalDays, setTotalDays] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [mentors, setMentors] = useState<string[]>([]);
   const [fromDate, setFromDate] = useState('');
   const app = initializeApp(firebaseConfig);
 
@@ -38,8 +39,8 @@ const FacultyApplyLeaveForm = () => {
     setReason(event.target.value);
   };
 
-  const handleFacultyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFaculty(event.target.value);
+  const handleMentorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setMentor(event.target.value);
   };
 
   useEffect(() => {
@@ -47,7 +48,23 @@ const FacultyApplyLeaveForm = () => {
     console.log("ID IN LEAVE: ", searchParams.get('userid'));
   }, [searchParams]);
 
-  
+  const fetchMentors = async () => {
+    const mentorsCollectionRef = collection(db, 'authentication');
+    const q = query(mentorsCollectionRef, where("UserType", "==", "Faculty"));
+
+    try {
+      const querySnapshot = await getDocs(q);
+      const mentorsList = querySnapshot.docs.map(doc => doc.data().Name);
+      setMentors(mentorsList);
+    } catch (error) {
+      console.error("Error fetching mentors: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMentors();
+  })
+
 
 
   useEffect(() => {
@@ -64,7 +81,8 @@ const FacultyApplyLeaveForm = () => {
         } else {
           querySnapshot.forEach(doc => {
             const userpin = doc.data().Pin;
-            console.log("ID OF USER: ", userpin);
+            const MyMobile = doc.data().Phone;
+            setMobile(MyMobile);
             setPin(userpin);
           });
         }
@@ -89,17 +107,11 @@ const FacultyApplyLeaveForm = () => {
     event.preventDefault();
 
     setIsLoading(true);
-    if (parentMobile === '') {
-      setTimeout(() => {
-        setIsLoading(false);
-        setErrorText("Please Fill your Mobile Number.");
-      }, 10);
-    }
-    else if (reason === '') {
+    if (reason === '') {
 
       setTimeout(() => {
         setIsLoading(false);
-        setErrorText("Please Fill Reason For Leave.");
+        setErrorText("Please Choose Reason For Leave.");
       }, 10);
     }
     else if (totalDays === '') {
@@ -109,7 +121,7 @@ const FacultyApplyLeaveForm = () => {
         setErrorText("Please Enter Total number of Days for Leave.");
       }, 10);
     }
-    else if (faculty === '') {
+    else if (mentor === '') {
 
       setTimeout(() => {
         setIsLoading(false);
@@ -147,12 +159,11 @@ const FacultyApplyLeaveForm = () => {
       const formData = {
         Pin: pin,
         Reason: reason,
-        ParentMobile: parentMobile,
+        Phone: Mobile,
         ApplicationTime: `${isoDate} ${isoTime}`,
         Status: "Applied",
         TotalDays: totalDays,
-        SubstituteFaculty: faculty,
-        ApplicationWith: "Principal",
+        SubstituteFaculty: mentor,
         FromDate: fromDate,
         Class: myclass,
         Period: period,
@@ -211,24 +222,10 @@ const FacultyApplyLeaveForm = () => {
                     <option value="casualleave">Casual Leave</option>
                     <option value="sickness">Sickness</option>
                     <option value="specialcasual">Special Casual</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
-                <div className="mb-8">
-                  <label
-                    htmlFor="mobile"
-                    className="mb-3 block text-sm text-dark dark:text-white"
-                  >
-                    {" "}
-                    Mobile Number{" "}
-                  </label>
-                  <input
-                    type="mobile"
-                    name="mobile"
-                    placeholder="Enter your Mobile Number"
-                    onChange={(e) => setParentMobile(e.target.value)}
-                    className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-                  />
-                </div>
+
                 <div className="mb-8">
                   <label
                     htmlFor="fromDate"
@@ -270,22 +267,20 @@ const FacultyApplyLeaveForm = () => {
                 </div>
 
                 <div className="mb-8">
-                  <label htmlFor="faculty" className="block text-sm text-dark dark:text-white mb-3">
-                    Chooose Substitute Faculty
+                  <label htmlFor="mentor" className="block text-sm text-dark dark:text-white mb-3">
+                    Select Substitute Faculty
                   </label>
                   <select
-                    id="faculty"
-                    name="faculty"
-                    onChange={handleFacultyChange}
+                    id="mentor"
+                    name="mentor"
+                    onChange={handleMentorChange}
+                    value={mentor}
                     className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                   >
                     <option value="">Select...</option>
-                    <option value="ashok">Ashok</option>
-                    <option value="aruna">Aruna</option>
-                    <option value="bhanu">Bhanu</option>
-                    <option value="mary">Mary</option>
-                    <option value="ramana">Ramana</option>
-                    <option value="veeranjaneyulu">Veeranjaneyulu</option>
+                    {mentors.map((mentorName, index) => (
+                      <option key={index} value={mentorName}>{mentorName}</option>
+                    ))}
                   </select>
                 </div>
 
