@@ -157,7 +157,7 @@ const PrincipalFacultyPendingPage = () => {
                                                     </tr>
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Phone}</td>
                                                     </tr>
 
                                                     <tr>
@@ -213,24 +213,24 @@ const PrincipalFacultyPendingPage = () => {
                             <table className="min-w-full bg-white dark:bg-dark border border-lime-600 dark:border-gray-600">
                                 <thead>
                                     <tr>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Pin</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Reason</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Mobile</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Leave Start Date</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Total Days</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
                                         <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {leaveData.map((leave, index) => (
                                         <tr key={index}>
-                                            <td className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Pin}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Reason}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Phone}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.FromDate}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.TotalDays}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">
                                                 <select
                                                     value={leave.Status}
                                                     onChange={(e) => handleStatusChange(index, e.target.value)}

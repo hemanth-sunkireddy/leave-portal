@@ -86,7 +86,7 @@ const PrincipalFacultyPage = () => {
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    setErrorText("No Faculty Leave Requests were approved/rejected by you.");
+                    setErrorText("No Faculty Leave Requests were approved/rejected by you or HoD.");
                     setIsLoading(false);
                 } else {
                     setErrorText("Faculty leave requests are below.")
@@ -144,7 +144,7 @@ const PrincipalFacultyPage = () => {
                                                     </tr>
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Phone}</td>
                                                     </tr>
                                                     <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days:</th>
@@ -199,25 +199,25 @@ const PrincipalFacultyPage = () => {
                             <table className="min-w-full bg-white dark:bg-dark border border-lime-600 dark:border-gray-600">
                                 <thead>
                                     <tr>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Id</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Id</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Reason</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Mobile</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Leave Start Date</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Total Days</th>
                                         <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {leaveData.map((leave, index) => (
                                         <tr key={index}>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
-                                            <td className="py-2 px-4 border-b border-lime-600 dark:border-lime-600">{leave.ApplicationTime}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Pin}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Reason}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Phone}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Status}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.FromDate}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.TotalDays}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-lime-600">{leave.ApplicationTime}</td>
                                         </tr>
                                     ))}
                                 </tbody>
