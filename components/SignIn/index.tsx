@@ -45,6 +45,10 @@ const SignInForm = () => {
                     if(userType === "Faculty") {
                         route = "faculty-dashboard";
                     }
+                    if(userType === "HoD") {
+                        route = "hod-dashboard";
+                    }
+                    console.log(userType);
                     usageCount++;
                     await setDoc(docRef, { UsageCount: usageCount }, { merge: true });
                     await setDoc(docRef, { SignUpTime: isoString }, { merge: true });
@@ -126,8 +130,8 @@ const SignInForm = () => {
                     }, 10);
                 }
             }
-            else if (pin == 'hodcse') {
-                if (password == 'hodcse') {
+            else if (pin == 'cme') {
+                if (password == 'cme') {
                     getUserIdAndRedirect(pin, "hod-dashboard");
                 }
                 else {
@@ -137,9 +141,9 @@ const SignInForm = () => {
                     }, 10);
                 }
             }
-            else if (pin == 'Mary') {
-                if (password == 'Mary') {
-                    getUserIdAndRedirect(pin, "mentor-dashboard");
+            else if (pin == 'ce') {
+                if (password == 'ce') {
+                    getUserIdAndRedirect(pin, "hod-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -148,9 +152,9 @@ const SignInForm = () => {
                     }, 10);
                 }
             }
-            else if (pin == 'Aruna') {
-                if (password == 'Aruna') {
-                    getUserIdAndRedirect(pin, "mentor-dashboard");
+            else if (pin == 'ece') {
+                if (password == 'ece') {
+                    getUserIdAndRedirect(pin, "hod-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -159,9 +163,9 @@ const SignInForm = () => {
                     }, 10);
                 }
             }
-            else if (pin === 'Ashok') {
-                if (password == 'Ashok') {
-                    getUserIdAndRedirect(pin, "mentor-dashboard");
+            else if (pin === 'ee') {
+                if (password == 'ee') {
+                    getUserIdAndRedirect(pin, "hod-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -170,9 +174,9 @@ const SignInForm = () => {
                     }, 10);
                 }
             }
-            else if (pin === 'Ramana') {
-                if (password == 'Ramana') {
-                    getUserIdAndRedirect(pin, "mentor-dashboard");
+            else if (pin === 'me') {
+                if (password == 'me') {
+                    getUserIdAndRedirect(pin, "hod-dashboard");
                 }
                 else {
                     setTimeout(() => {
@@ -181,20 +185,9 @@ const SignInForm = () => {
                     }, 10);
                 }
             }
-            else if (pin === 'Bhanu') {
-                if (password == 'Bhanu') {
-                    getUserIdAndRedirect(pin, "mentor-dashboard");
-                }
-                else {
-                    setTimeout(() => {
-                        setErrorText("Password Incorrect. Please check password.");
-                        setIsLoading(false);
-                    }, 10);
-                }
-            }
-            else if (pin === 'Veeranjaneyulu') {
-                if (password == 'Veeranjaneyulu') {
-                    getUserIdAndRedirect(pin, "mentor-dashboard");
+            else if (pin === 'mng') {
+                if (password == 'mng') {
+                    getUserIdAndRedirect(pin, "hod-dashboard");
                 }
                 else {
                     setTimeout(() => {

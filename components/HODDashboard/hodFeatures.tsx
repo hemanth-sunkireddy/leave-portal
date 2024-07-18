@@ -8,7 +8,7 @@ const featureData: Features[] = [
       "View your branch student applied leave requests and Approved by Warden/Mentor or You.",
     image: "/images/dashboard/past-leave.jpg",
     detail: "View Applications",
-    redirectLink: "principal-student-dashboard"
+    redirectLink: "hod-student"
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const featureData: Features[] = [
       "View your Faculty Completed Faculty Leave Requests which was approved/rejected by you or Principal.",
     image: "/images/dashboard/past-leave.jpg",
     detail: "View Applications",
-    redirectLink: "principal-faculty-dashboard"
+    redirectLink: "hod-faculty"
   },
   {
     id: 3,
@@ -26,7 +26,7 @@ const featureData: Features[] = [
       "View your Branch Student Pending applied leave requests and Approve/Reject Leave Requests.",
     image: "/images/dashboard/past-leave.jpg",
     detail: "View Applications",
-    redirectLink: "principal-student-pending"
+    redirectLink: "hod-student-pending"
   },
   {
     id: 4,
@@ -35,7 +35,7 @@ const featureData: Features[] = [
       "View your Faculty Pending applied leave requests and Approve/Reject Leave Requests.",
     image: "/images/dashboard/past-leave.jpg",
     detail: "View Applications",
-    redirectLink: "principal-faculty-pending"
+    redirectLink: "hod-faculty-pending"
   },
 ];
 export default featureData;

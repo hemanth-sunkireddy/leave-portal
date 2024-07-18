@@ -43,11 +43,11 @@ const FacultyPendingPage = () => {
                 if (!querySnapshot.empty) {
                     // Assuming there's only one document that matches the query
                     const pinDoc = querySnapshot.docs[0];
-                    const userPin = pinDoc.data().Pin; // Adjust 'Pin' to match the field name in Firestore
+                    const userPin = pinDoc.data().Pin; 
                     setPin(userPin);
                 } else {
                     setIsLoading(false);
-                    setErrorText("Error in Fetching Data. Please sign in again.");
+                    setErrorText("Error in Fetching Data. Check Network Connection.");
                 }
             } catch (error) {
                 console.error("Error fetching PIN document:", error);
@@ -65,6 +65,7 @@ const FacultyPendingPage = () => {
             try {
                 const leavesRef = collection(db, "leaves");
                 const q = query(leavesRef, where("UserType", "==", "Faculty")
+                , where("Branch", "==", id)
                     , where("Status", "==", "Applied"));
                 const querySnapshot = await getDocs(q);
 
@@ -155,8 +156,20 @@ const FacultyPendingPage = () => {
                                                         <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
                                                     </tr>
                                                     <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Substitute Faculty:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.SubstituteFaculty}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Class:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Class}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Period:</th>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Period}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile:</th>
-                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
+                                                        <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Phone}</td>
                                                     </tr>
 
                                                     <tr>
@@ -212,24 +225,27 @@ const FacultyPendingPage = () => {
                             <table className="min-w-full bg-white dark:bg-dark border border-lime-600 dark:border-gray-600">
                                 <thead>
                                     <tr>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Pin</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Reason</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Mobile</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Leave Start Date</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Total Days</th>
-                                        <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Status</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Pin</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Reason</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Mobile</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Leave Start Date</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Total Days</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Substitute Faculty</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Class</th>
+                                        <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Period</th>
                                         <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {leaveData.map((leave, index) => (
                                         <tr key={index}>
-                                            <td className="pt-10 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Pin}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Reason}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.ParentMobile}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
-                                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Pin}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Reason}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Phone}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.FromDate}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.TotalDays}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">
                                                 <select
                                                     value={leave.Status}
                                                     onChange={(e) => handleStatusChange(index, e.target.value)}
@@ -240,6 +256,9 @@ const FacultyPendingPage = () => {
                                                     <option value="Rejected">Rejected</option>
                                                 </select>
                                             </td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.SubstituteFaculty}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Class}</td>
+                                            <td className="py-2 px-4 border-b border-gray-400 dark:border-gray-600">{leave.Period}</td>
                                             <td className="py-2 px-4 border-b border-lime-600 dark:border-lime-600">{leave.ApplicationTime}</td>
                                         </tr>
                                     ))}

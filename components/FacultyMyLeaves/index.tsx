@@ -148,6 +148,18 @@ const MyLeaves = () => {
                             <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
                           </tr>
                           <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Substitute Faculty:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.SubstituteFaculty}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Class:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Class}</td>
+                          </tr>
+                          <tr>
+                            <th className="py-2 px-4 border-b border-gray-200 dark:border-gray-600 font-semibold">Period:</th>
+                            <td className="py-2 px-4 border-b border-gray-200 dark:border-gray-600">{leave.Period}</td>
+                          </tr>
+                          <tr>
                             <th className="py-2 px-4 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time:</th>
                             <td className="py-2 px-4 border-b border-lime-600 dark:border-gray-600">{leave.ApplicationTime}</td>
                           </tr>
@@ -188,6 +200,9 @@ const MyLeaves = () => {
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Leave Start Date</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Total Days</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Status</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Substitute Faculty</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Class</th>
+                    <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Period</th>
                     <th className="px-4 py-2 border-b border-lime-600 dark:border-gray-600 font-semibold">Application Time</th>
                   </tr>
                 </thead>
@@ -199,6 +214,9 @@ const MyLeaves = () => {
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.FromDate}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.TotalDays}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Status}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.SubstituteFaculty}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Class}</td>
+                      <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.Period}</td>
                       <td className="px-4 py-2 border-b border-gray-200 dark:border-gray-600">{leave.ApplicationTime}</td>
                     </tr>
                   ))}

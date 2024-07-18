@@ -23,6 +23,7 @@ const FacultyApplyLeaveForm = () => {
   const [myclass, setMyClass] = useState('');
   const [reason, setReason] = useState('');
   const [Mobile, setMobile] = useState('');
+  const [branch, setBranch] = useState("");
   const [totalDays, setTotalDays] = useState('');
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -80,6 +81,8 @@ const FacultyApplyLeaveForm = () => {
           querySnapshot.forEach(doc => {
             const userpin = doc.data().Pin;
             const MyMobile = doc.data().Phone;
+            const MyBranch = doc.data().Branch;
+            setBranch(MyBranch);
             setMobile(MyMobile);
             setPin(userpin);
           });
@@ -164,6 +167,7 @@ const FacultyApplyLeaveForm = () => {
         FromDate: fromDate,
         Class: myclass,
         Period: period,
+        Branch: branch,
         UserType: "Faculty"
       };
       try {
