@@ -149,11 +149,9 @@ const StudentSignupForm = () => {
         }
         else {
             const date = new Date();
-            console.log("TODAY TIME: ", date);
             date.setMinutes(date.getMinutes() + 330);
             let isoString = date.toISOString();
             const randomString = generateRandomString(200);
-            console.log("RANDOM STRING: ", randomString);
             const formData = {
                 FirstName: firstName,
                 LastName: lastName,
@@ -179,7 +177,6 @@ const StudentSignupForm = () => {
                     setIsLoading(false);
                 } else {
                     await setDoc(docRef, formData);
-                    console.log("Document Written: ", docRef);
                     setErrorText("Registration Success. Redirecting to Sign In page...");
                     setTimeout(() => {
                         setIsLoading(false);

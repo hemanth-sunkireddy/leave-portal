@@ -45,7 +45,6 @@ const FacultyApplyLeaveForm = () => {
 
   useEffect(() => {
     setId(searchParams.get('userid'));
-    console.log("ID IN LEAVE: ", searchParams.get('userid'));
   }, [searchParams]);
 
   const fetchMentors = async () => {
@@ -77,7 +76,6 @@ const FacultyApplyLeaveForm = () => {
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
-          console.log("ERROR"); // WIll handle this later
         } else {
           querySnapshot.forEach(doc => {
             const userpin = doc.data().Pin;
@@ -93,7 +91,6 @@ const FacultyApplyLeaveForm = () => {
         setIsLoading(false);
       }
     };
-    console.log("PIN AFTER: ", id);
     if (id) {
       fetchData();
     }

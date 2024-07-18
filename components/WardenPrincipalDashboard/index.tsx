@@ -45,7 +45,6 @@ const WardenPrincipalPage = () => {
                     // Assuming there's only one document that matches the query
                     const pinDoc = querySnapshot.docs[0];
                     const userPin = pinDoc.data().Pin;
-                    console.log("USERPIN: ", userPin);
                     setPin(userPin);
                 } else {
                     setIsLoading(false);
@@ -91,8 +90,6 @@ const WardenPrincipalPage = () => {
                     where("Gender", "==", gender),
                     where("TotalDays", "in", ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]),
                 );
-                console.log("GENDER: ", gender);
-                console.log("PIN: ", pin);
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
@@ -108,7 +105,6 @@ const WardenPrincipalPage = () => {
                 }
 
             } catch (error) {
-                console.log(error);
                 setIsLoading(false);
                 setErrorText(error.message.toString());
             }

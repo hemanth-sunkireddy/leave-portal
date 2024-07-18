@@ -81,7 +81,6 @@ const PrincipalFacultyPendingPage = () => {
                 }
 
             } catch (error) {
-                console.log(error);
                 setIsLoading(false);
                 setErrorText(error.message.toString());
             }

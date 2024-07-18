@@ -98,7 +98,6 @@ const StudentPendingPage = () => {
                 }
 
             } catch (error) {
-                console.log(error);
                 setIsLoading(false);
                 setErrorText(error.message.toString());
             }

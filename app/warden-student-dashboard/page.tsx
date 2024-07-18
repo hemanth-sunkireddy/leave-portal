@@ -12,7 +12,7 @@ const WardenStudentDashboard = () => {
     <>
       <Breadcrumb
         pageName="Hi Warden"
-        description="View your Students Completed leave requests for less than 2 days. This Leave Requests were approved/rejected by Mentor/You."
+        description="View your Students Completed leave requests. This Leave Requests were approved/rejected by Mentor/You."
       />
       <WardenStudentPage />
     </>

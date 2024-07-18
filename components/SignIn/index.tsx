@@ -37,13 +37,11 @@ const SignInForm = () => {
                 const storedPassword = docSnap.data().Password;
                 if (storedPassword === password) {
                     const date = new Date();
-                    console.log("TODAY TIME: ", date);
                     date.setMinutes(date.getMinutes() + 330);
                     let isoString = date.toISOString();
                     let usageCount = docSnap.data().UsageCount || 0;
                     const userID = docSnap.data().UniqueID || 0;
                     const userType = await docSnap.data().UserType || "";
-                    console.log("USER TYPE: ", userType);
                     if(userType === "Faculty") {
                         route = "faculty-dashboard";
                     }

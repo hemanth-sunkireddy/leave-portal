@@ -98,7 +98,6 @@ const StudentPageLeaves = () => {
                 }
 
             } catch (error) {
-                console.log(error);
                 setIsLoading(false);
                 setErrorText(error.message.toString());
             }

@@ -39,12 +39,10 @@ const ApplyLeaveForm = () => {
 
   useEffect(() => {
     setId(searchParams.get('userid'));
-    console.log("ID IN LEAVE: ", searchParams.get('userid'));
   }, [searchParams]);
 
   useEffect(() => {
     const totalDaysInt = parseInt(totalDays);
-    console.log(totalDaysInt);
     if (totalDaysInt > 3) setApplicationWith("Principal");
   }, [totalDays])
 
@@ -63,7 +61,6 @@ const ApplyLeaveForm = () => {
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
-          console.log("ERROR"); // WIll handle this later
         } else {
           querySnapshot.forEach(doc => {
             const userpin = doc.data().Pin;
@@ -89,7 +86,7 @@ const ApplyLeaveForm = () => {
         setIsLoading(false);
       }
     };
-    console.log("PIN AFTER: ", id);
+
     if (id) {
       fetchData();
     }
