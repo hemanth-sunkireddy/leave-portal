@@ -108,6 +108,17 @@ const SignInForm = () => {
                     }, 10);
                 }
             }
+            else if (pin == 'vp') {
+                if (password == 'vp') {
+                    getUserIdAndRedirect(pin, "vp-dashboard");
+                }
+                else {
+                    setTimeout(() => {
+                        setErrorText("Password Incorrect. Please check password.");
+                        setIsLoading(false);
+                    }, 10);
+                }
+            }
             else if (pin == 'NirmalaGirlsHostel') {
                 if (password == '123') {
                     getUserIdAndRedirect(pin, "warden-dashboard");

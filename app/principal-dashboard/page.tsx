@@ -12,7 +12,7 @@ const PrincipalDashboard = () => {
     <>
       <Breadcrumb
         pageName="Hi Principal"
-        description="View your Students/Faculty applied leave requests and Please approve/reject them."
+        description="View your Faculty applied leave requests and Please approve/reject them."
       />
       <PrincipalHomeComponent />
     </>
